@@ -27,7 +27,7 @@
                 <span class="info-box-text">Registered Clients</span>
                 <span class="info-box-number text-right">
                   <?php 
-                    $mechanics = $conn->query("SELECT count(id) as total FROM `accounts` where delete_flag = 0 and account_type=1")->fetch_assoc()['total'];
+                    $mechanics = $conn->query("SELECT sum(id) as total FROM `client_list` where delete_flag = 0 ")->fetch_assoc()['total'];
                     echo number_format($mechanics);
                   ?>
                 </span>

@@ -40,7 +40,17 @@ $gtotal = 0;
 					<div class="row">
 						<div class="col-lg-6 col-md-6 col-sm-12 col-sm-12">
 							<label for="control-label">Client Name</label>
-							<div class="pl-4"><?= isset($client_name) ? $client_name : '' ?></div>
+							<?php
+							$client_id = isset($client_id) ? $client_id : '';
+							$client_name = '';
+							if ($client_id != '') {
+								$client_qry = $conn->query("SELECT CONCAT(firstname, ' ', lastname) AS fullname FROM `accounts` WHERE id = $client_id");
+								if ($client_qry->num_rows > 0) {
+									$client_name = $client_qry->fetch_assoc()['fullname'];
+								}
+							}
+							?>
+							<div class="pl-4"><?= $client_name ?></div>
 						</div>
 						<div class="col-lg-6 col-md-6 col-sm-12 col-sm-12">
 							<label for="control-label">Contact #</label>

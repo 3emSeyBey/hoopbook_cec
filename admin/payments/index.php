@@ -4,9 +4,10 @@
 </script>
 <?php endif;?>
 <?php $date = isset($_GET['date']) ? $_GET['date'] : date("Y-m-d"); ?>
+<?php $client_id = isset($_GET['client_id']) ? $_GET['client_id'] : 0; ?>
 <div class="card card-outline rounded-0 card-navy">
 	<div class="card-header">
-		<h3 class="card-title">Daily Court Rentals Report</h3>
+		<h3 class="card-title">Daily Payments Report</h3>
 	</div>
 	<div class="card-body">
 		<div class="container-fluid mb-3">
@@ -19,6 +20,20 @@
                                 <div class="form-group">
                                     <label for="date" class="control-label">Choose Date</label>
                                     <input type="date" class="form-control form-control-sm rounded-0" name="date" id="date" value="<?= date("Y-m-d", strtotime($date)) ?>" required="required">
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
+                                <div class="form-group">
+                                    <label for="date" class="control-label">Choose Client</label>
+                                    <select name="client_id" id="client_id" class="form-control form-control-sm rounded-0" required="required">
+										<option value="*" selected>All Clients</option>
+										<?php 
+										$court_qry = $conn->query("SELECT * FROM `accounts` where `status` = 1 order by `firstname` asc");
+										while($row = $court_qry->fetch_assoc()):
+										?>
+										<option value="<?= $row['id'] ?>"><?= $row['firstname'] . ' ' .$row['lastname'] ?></option>
+										<?php endwhile; ?>
+									</select>
                                 </div>
                             </div>
                             <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
@@ -58,7 +73,10 @@
 					<?php 
                     $total = 0;
 					$i = 1;
-                    $qry = $conn->query("SELECT cr.*, c.name as `court` FROM `court_rentals` cr inner join court_list c on cr.court_id = c.id where date(cr.date_created) = '{$date}' order by c.`status` asc ");
+                    if($client_id == '*')
+                        $qry = $conn->query("SELECT cr.*, c.name as `court` FROM `court_rentals` cr inner join court_list c on cr.court_id = c.id where date(cr.date_created) = '{$date}' order by c.`status` asc ");
+                    else
+                        $qry = $conn->query("SELECT cr.*, c.name as `court` FROM `court_rentals` cr inner join court_list c on cr.court_id = c.id where date(cr.date_created) = '{$date}' and client_id = '{$client_id}' order by c.`status` asc ");
                     while($row = $qry->fetch_assoc()):
                         $total += $row['total'];
 					?>
@@ -90,7 +108,7 @@
                 </tfoot>
 			</table>
 		</div>
-	</div>
+    </div>
 </div>
 <noscript id="print-header">
     <div>
@@ -111,16 +129,16 @@
     </div>
 </noscript>
 <script>
-	$(document).ready(function(){
+    $(document).ready(function(){
 		$('#filter-form').submit(function(e){
             e.preventDefault()
-            location.href = "./?page=reports/daily_court_rental_report&"+$(this).serialize()
+            location.href = "./?page=payments/index&"+$(this).serialize()
         })
         $('#print').click(function(){
             var h = $('head').clone()
             var ph = $($('noscript#print-header').html()).clone()
             var p = $('#printout').clone()
-            h.find('title').text('Daily Court Rentals Report - Print View')
+            h.find('title').text('Daily Payments Report - Print View')
 
             start_loader()
             var nw = window.open("", "_blank", "width="+($(window).width() * .8)+", height="+($(window).height() * .8)+", left="+($(window).width() * .1)+", top="+($(window).height() * .1))
@@ -137,5 +155,4 @@
                      }, 300);
         })
 	})
-	
 </script>

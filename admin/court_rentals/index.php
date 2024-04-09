@@ -45,7 +45,18 @@
 						<tr>
 							<td class="text-center"><?php echo $i++; ?></td>
 							<td><?php echo date("Y-m-d H:i",strtotime($row['date_created'])) ?></td>
-							<td><?php echo $row['client_name'] ?></td>
+							<?php
+							$client_id = isset($client_id) ? $client_id : '';
+							$client_name = '';
+							$client_id = $row['client_id'];
+							if ($client_id != '') {
+								$client_qry = $conn->query("SELECT CONCAT(firstname, ' ', lastname) AS fullname FROM `accounts` WHERE id = $client_id ");
+								if ($client_qry->num_rows > 0) {
+									$client_name = $client_qry->fetch_assoc()['fullname'];
+								}
+							}
+							?>
+							<td><?php echo $client_name ?></td>
 							<td><?php echo $row['court'] ?></td>
 							<td class=""><?= date("M d, Y h:i A", strtotime($row['datetime_start'])) ?></td>
 							<td class=""><?= date("M d, Y h:i A", strtotime($row['datetime_end'])) ?></td>

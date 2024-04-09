@@ -20,15 +20,13 @@
 					<col width="15%">
 					<col width="15%">
 					<col width="10%">
-					<col width="10%">
 				</colgroup>
 				<thead>
 					<tr>
 						<th>#</th>
-						<th>Date Updated</th>
-						<th>Name</th>
+						<th>First Name</th>
 						<th>Last Name</th>
-						<th>Username</th>
+						<th>Email</th>
 						<th>Type</th>
 						<th>Action</th>
 					</tr>
@@ -36,22 +34,19 @@
 				<tbody>
 					<?php 
 					$i = 1;
-						$qry = $conn->query("SELECT *, concat(firstname,' ', lastname) as `name` from `users` where id != '{$_settings->userdata('id')}' order by concat(firstname,' ', lastname) asc ");
+						$qry = $conn->query("SELECT * from `accounts` where id != '{$_settings->userdata('id')}' order by concat(firstname,' ', lastname) asc ");
 						while($row = $qry->fetch_assoc()):
 					?>
 						<tr>
 							<td class="text-center"><?php echo $i++; ?></td>
-							<td><?php echo date("Y-m-d H:i",strtotime($row['date_updated'])) ?></td>
-							<td><?php echo $row['name'] ?></td>
-							<td></td>
-							<td><?php echo $row['username'] ?></td>
+							<td><?php echo $row['firstname'] ?></td>
+							<td><?php echo $row['lastname'] ?></td>
+							<td><?php echo $row['email'] ?></td>
 							<td class="text-center">
-                                <?php if($row['type'] == 1): ?>
+                                <?php if($row['account_type'] == 0): ?>
                                     Administrator
-                                <?php elseif($row['type'] == 2): ?>
-                                    Staff
-                                <?php else: ?>
-									N/A
+                                <?php elseif($row['account_type'] == 1): ?>
+                                    User
                                 <?php endif; ?>
                             </td>
 							<td align="center">

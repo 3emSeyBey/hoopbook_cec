@@ -17,35 +17,7 @@ class Login extends DBConnection {
 	}
 	public function login(){
 		extract($_POST);
-
-		$stmt = $this->conn->prepare("SELECT * from users where username = ? and password = ? and `type` != 3 ");
-		$password = md5($password);
-		$stmt->bind_param('ss',$username,$password);
-		$stmt->execute();
-		$result = $stmt->get_result();
-		if($result->num_rows > 0){
-			foreach($result->fetch_array() as $k => $v){
-				if(!is_numeric($k) && $k != 'password'){
-					$this->settings->set_userdata($k,$v);
-				}
-
-			}
-			$this->settings->set_userdata('login_type',1);
-		return json_encode(array('status'=>'success'));
-		}else{
-		return json_encode(array('status'=>'incorrect','last_qry'=>"SELECT * from users where username = '$username' and password = md5('$password') "));
-		}
-	}
-	public function logout(){
-		if($this->settings->sess_des()){
-			redirect('admin/login.php');
-		}
-	}
-	
-	public function user_login(){
-		extract($_POST);
-		$stmt = $this->conn->prepare("SELECT * from individual_list where `email` = ? and password = ? and `status` != 3 ");
-		$password = md5($password);
+		$stmt = $this->conn->prepare("SELECT * from accounts where `email` = ? and password = ? and `status` != 3 ");
 		$stmt->bind_param('ss',$email,$password);
 		$stmt->execute();
 		$result = $stmt->get_result();
@@ -55,52 +27,49 @@ class Login extends DBConnection {
 				if(!is_numeric($k) && $k != 'password'){
 					$this->settings->set_userdata($k,$v);
 				}
-
 			}
 			$this->settings->set_userdata('status',$data['status']);
 			$this->settings->set_userdata('login_type',3);
-		return json_encode(array('status'=>'success'));
-		}else{
-		return json_encode(array('status'=>'incorrect','last_qry'=>"SELECT * from individual_list where `email` = '$email' and password = md5('$password') "));
-		}
-	}
-	public function user_logout(){
-		if($this->settings->sess_des()){
-			redirect('user/login.php');
-		}
-	}
-	function login_agent(){
-		extract($_POST);
-		$stmt = $this->conn->prepare("SELECT * from agent_list where email = ? and `password` = ? and delete_flag = 0 ");
-		$password = md5($password);
-		$stmt->bind_param('ss',$email,$password);
-		$stmt->execute();
-		$result = $stmt->get_result();
-		if($result->num_rows > 0){
-			$res = $result->fetch_array();
-			if($res['status'] == 1){
-				foreach($res as $k => $v){
-					$this->settings->set_userdata($k,$v);
-				}
-				$this->settings->set_userdata('login_type',2);
-				$resp['status'] = 'success';
-			}else{
-				$resp['status'] = 'failed';
-				$resp['msg'] = 'Your Account has been blocked.';
+			if($this->settings->userdata('account_type') == 1){
+				redirect('user');
+			} else {
+				redirect('admin');
 			}
 		}else{
-		$resp['status'] = 'failed';
-		$resp['msg'] = 'Incorrect Email or Password';
+		return json_encode(array('status'=>'incorrect','last_qry'=>"SELECT * from accounts where `email` = '$email' and password = $password "));
 		}
-		if($this->conn->error){
-			$resp['status'] = 'failed';
-			$resp['_error'] = $this->conn->error;
-		}
-		return json_encode($resp);
 	}
-	public function logout_agent(){
+	public function logout(){
 		if($this->settings->sess_des()){
-			redirect('agent');
+			redirect('../login_form.php');
+		}
+	}
+	public function register(){
+		extract($_POST);
+		$stmt = $this->conn->prepare('INSERT INTO accounts set firstname = ?, lastname = ?, contact = ?, address=?, email = ?, password = ?');
+		$stmt->bind_param('ssssss',$firstname,$lastname,$contact,$address, $email,$password);
+		if($stmt->execute()){
+			$stmt = $this->conn->prepare("SELECT * from accounts where `email` = ? and password = ? and `status` != 3 ");
+			$stmt->bind_param('ss',$email,$password);
+			$stmt->execute();
+			$result = $stmt->get_result();
+			if($result->num_rows > 0){
+				$data = $result->fetch_array();
+				foreach($data as $k => $v){
+					if(!is_numeric($k) && $k != 'password'){
+						$this->settings->set_userdata($k,$v);
+					}
+				}
+				$this->settings->set_userdata('status',$data['status']);
+				$this->settings->set_userdata('login_type',3);
+				if($this->settings->userdata('account_type') == 1){
+					redirect('user');
+				} else {
+					redirect('admin');
+				}
+			}
+		}else{
+			return json_encode(array('status'=>'failed','last_qry'=>"INSERT INTO accounts set firstname = '$firstname', lastname = '$lastname', contact = '$contact', email = '$email', password = '$password'"));
 		}
 	}
 }
@@ -113,17 +82,8 @@ switch ($action) {
 	case 'logout':
 		echo $auth->logout();
 		break;
-	case 'user_login':
-		echo $auth->user_login();
-		break;
-	case 'user_logout':
-		echo $auth->user_logout();
-		break;
-	case 'login_agent':
-		echo $auth->login_agent();
-		break;
-	case 'logout_agent':
-		echo $auth->logout_agent();
+	case 'register':
+		echo $auth->register();
 		break;
 	default:
 		echo $auth->index();

@@ -253,7 +253,7 @@ body {
 
     <div class="wrapper" id="wrapper-register">
         <div class="form-box register">
-            <form action="#" method="post">
+            <form action="./classes/Login.php?f=register" method="post">
                 <div class="banner">
                     <h1>HOOP<span>BOOK</h1>
                 </div>    
@@ -270,6 +270,11 @@ body {
                 <div class="input-box animation">
                 <input type="text" name="contact" id="contact" min="0" max="999999999999"  required>
                     <label>Contact #</label>
+                </div>
+
+                <div class="input-box animation">
+                <input type="text" name="address" id="address" required>
+                    <label>Address</label>
                 </div>
 
                 <div class="input-box animation">

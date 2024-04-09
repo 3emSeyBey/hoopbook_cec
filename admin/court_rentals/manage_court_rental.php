@@ -5,7 +5,6 @@ if(isset($_GET['id']) && $_GET['id'] > 0){
     if($qry->num_rows > 0){
         foreach($qry->fetch_assoc() as $k => $v){
             $$k=$v;
-			echo $k . ' = ' . $$k . '<br>';
         }
     }
 }
@@ -24,8 +23,20 @@ $gtotal = 0;
 							<input type="hidden" name ="id" value="<?php echo isset($id) ? $id : '' ?>">
 							<div class="row">
 								<div class="form-group col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-3">
-									<label for="client_name" class="control-label">Client Name</label>
-									<input type="text" class="form-control form-control-sm rounded-0" id="client_name" name="client_name" value="<?= isset($client_name) ? $client_name : '' ?>" required="required">
+									<label for="client_id" class="control-label">Client Name</label>
+									<!-- <input type="text" class="form-control form-control-sm rounded-0" id="client_name" name="client_name" value="<?= isset($client_name) ? $client_name : '' ?>" required="required"> -->
+									<select name="client_id" id="client_id" class="form-control form-control-sm rounded-0" required="required">
+										<?php 
+										$court_qry = $conn->query("SELECT * FROM `accounts` where `status` = 1 and account_type=1 order by `id` asc");
+										while($row = $court_qry->fetch_assoc()):
+											$selected = '';
+											if(isset($id) && $client_id == $row['id']) {
+												$selected = 'selected';
+											}
+										?>
+										<option value=<?= $row['id'] ?> <?= $selected ?>><?= $row['firstname'] . ' ' .$row['lastname'] ?></option>
+										<?php endwhile; ?>
+									</select>
 								</div>
 								<div class="form-group col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-3">
 									<label for="contact" class="control-label">Contact</label>

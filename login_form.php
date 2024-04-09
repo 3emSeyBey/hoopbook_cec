@@ -251,7 +251,6 @@ body {
 </head>
 
 <body>
-
     <div class="wrapper">
         <a class="close" href="<?php echo base_url.'index.php' ?>">X</a>
         <div class="form-box login">
@@ -260,7 +259,7 @@ body {
             </div> 
             <form action="./classes/Login.php?f=login" method="post">
                 <div class="input-box animation">
-                    <input type="text" name="username"autocomplete="off" required>
+                    <input type="text" name="email"autocomplete="off" required>
                     <label>Username</label>
                 </div>
                 <div class="input-box animation">

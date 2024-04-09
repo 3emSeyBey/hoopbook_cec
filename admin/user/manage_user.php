@@ -1,6 +1,6 @@
 <?php 
 if(isset($_GET['id'])){
-    $user = $conn->query("SELECT * FROM users where id ='{$_GET['id']}' ");
+    $user = $conn->query("SELECT * FROM accounts where id ='{$_GET['id']}' ");
     foreach($user->fetch_array() as $k =>$v){
         $meta[$k] = $v;
     }
@@ -27,8 +27,8 @@ if(isset($_GET['id'])){
 					<input type="text" name="lastname" id="lastname" class="form-control" value="<?php echo isset($meta['lastname']) ? $meta['lastname']: '' ?>" required>
 				</div>
 				<div class="form-group">
-					<label for="username">Username</label>
-					<input type="text" name="username" id="username" class="form-control" value="<?php echo isset($meta['username']) ? $meta['username']: '' ?>" required  autocomplete="off">
+					<label for="username">Email</label>
+					<input type="text" name="email" id="email" class="form-control" value="<?php echo isset($meta['email']) ? $meta['email']: '' ?>" required  autocomplete="off">
 				</div>
 				<div class="form-group">
 					<label for="password"><?= isset($meta['id']) ? "New" : "" ?> Password</label>
@@ -38,10 +38,10 @@ if(isset($_GET['id'])){
                     <?php endif; ?>
 				</div>
                 <div class="form-group">
-                    <label for="type" class="control-label">Type</label>
-                    <select name="type" id="type" class="form-control form-control-sm rounded-0" required>
-                    <option value="1" <?php echo isset($meta['type']) && $meta['type'] == 1 ? 'selected' : '' ?>>Administrator</option>
-                    <option value="2" <?php echo isset($meta['type']) && $meta['type'] == 2 ? 'selected' : '' ?>>Staff</option>
+                    <label for="account_type" class="control-label">Type</label>
+                    <select name="account_type" id="account_type" class="form-control form-control-sm rounded-0" required>
+                    <option value="0" <?php echo isset($meta['account_type']) && $meta['account_type'] == 0 ? 'selected' : '' ?>>Administrator</option>
+                    <option value="1" <?php echo isset($meta['account_type']) && $meta['account_type'] == 1 ? 'selected' : '' ?>>User</option>
                     </select>
                 </div>
 		
@@ -73,22 +73,36 @@ if(isset($_GET['id'])){
 		e.preventDefault();
 		start_loader()
 		$.ajax({
-			url:_base_url_+'classes/Users.php?f=save',
-			data: new FormData($(this)[0]),
-		    cache: false,
-		    contentType: false,
-		    processData: false,
-		    method: 'POST',
-		    type: 'POST',
-			success:function(resp){
-				if(resp ==1){
-					location.href='./?page=user/list'
-				}else{
-					$('#msg').html('<div class="alert alert-danger">Username already exist</div>')
-					end_loader()
+				url:_base_url_+"classes/Users.php?f=save_user",
+				data: new FormData($(this)[0]),
+                cache: false,
+                contentType: false,
+                processData: false,
+                method: 'POST',
+                type: 'POST',
+                dataType: 'json',
+				error:err=>{
+					console.log(err)
+					alert_toast("An error occured",'error');
+					end_loader();
+				},
+				success:function(resp){
+					if(typeof resp =='object' && resp.status == 'success'){
+						location.href = "./?page=clients";
+					}else if(resp.status == 'failed' && !!resp.msg){
+                        var el = $('<div>')
+                            el.addClass("alert alert-danger err-msg").text(resp.msg)
+                            _this.prepend(el)
+                            el.show('slow')
+                            $("html, body").animate({ scrollTop: _this.closest('.card').offset().top }, "fast");
+                            end_loader()
+                    }else{
+						alert_toast("An error occured",'error');
+						end_loader();
+                        console.log(resp)
+					}
 				}
-			}
-		})
+			})
 	})
 
 </script>

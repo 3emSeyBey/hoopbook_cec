@@ -197,7 +197,27 @@ Class Master extends DBConnection {
 	function save_court_rental(){
 		extract($_POST);
 		$data = "";
-		$cr_allowed = ['client_name', 'court_id', 'contact', 'court_price', 'datetime_start', 'datetime_end', 'hours', 'total', 'status'];
+		// Convert datetime_start and datetime_end to DateTime objects
+		$startDateTime = new DateTime($datetime_start);
+		$endDateTime = new DateTime($datetime_end);
+	
+		// Get the day of the week (1 for Monday, 7 for Sunday)
+		$dayOfWeek = $startDateTime->format('N');
+	
+		// Define the allowed start and end times for weekdays and weekends
+		$weekdayStart = new DateTime('19:00:00');
+		$weekdayEnd = new DateTime('23:59:59');
+		$weekendStart = new DateTime('12:00:00');
+		$weekendEnd = new DateTime('23:59:59');
+	
+		// Check if the reservation times are within the allowed times
+		if (($dayOfWeek >= 1 && $dayOfWeek <= 5 && ($startDateTime < $weekdayStart || $endDateTime > $weekdayEnd)) ||
+			($dayOfWeek >= 6 && $dayOfWeek <= 7 && ($startDateTime < $weekendStart || $endDateTime > $weekendEnd))) {
+			$resp['status'] = 'failed';
+			$resp['msg'] = "Reservations can only be booked from 7pm to 12am on Monday through Friday, and from 12pm to 12am on Saturday and Sunday. "+(string)$dayOfWeek;
+			return json_encode($resp);
+		}
+		$cr_allowed = ['client_id', 'court_id', 'contact', 'court_price', 'datetime_start', 'datetime_end', 'hours', 'total', 'status'];
 		foreach($_POST as $k =>$v){
 			if(in_array($k, $cr_allowed)){
 				if(!empty($data)) $data .=",";

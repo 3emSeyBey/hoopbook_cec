@@ -16,7 +16,6 @@ Class Users extends DBConnection {
 		if(empty($_POST['password']))
 			unset($_POST['password']);
 		else
-		$_POST['password'] = md5($_POST['password']);
 		extract($_POST);
 		$data = '';
 		foreach($_POST as $k => $v){
@@ -26,7 +25,7 @@ Class Users extends DBConnection {
 			}
 		}
 		if(empty($id)){
-			$qry = $this->conn->query("INSERT INTO users set {$data}");
+			$qry = $this->conn->query("INSERT INTO accounts set {$data}");
 			if($qry){
 				$id=$this->conn->insert_id;
 				$this->settings->set_flashdata('success','User Details successfully saved.');
@@ -37,14 +36,14 @@ Class Users extends DBConnection {
 						$this->settings->set_userdata($k,$v);
 					}
 				}
+				return json_encode(array('status'=>'success','id'=>$id));
 			
-				return 1;
 			}else{
 				return 2;
 			}
 			
 		}else{
-			$qry = $this->conn->query("UPDATE users set $data where id = {$id}");
+			$qry = $this->conn->query("UPDATE accounts set $data where id = {$id}");
 			if($qry){
 				$this->settings->set_flashdata('success','User Details successfully updated.');
 				foreach($_POST as $k => $v){
@@ -254,7 +253,7 @@ Class Users extends DBConnection {
 $users = new users();
 $action = !isset($_GET['f']) ? 'none' : strtolower($_GET['f']);
 switch ($action) {
-	case 'save':
+	case 'save_user':
 		echo $users->save_users();
 	break;
 	case 'registration':

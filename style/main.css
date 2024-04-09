@@ -1,0 +1,161 @@
+/* style.css */
+* {
+	box-sizing: border-box;
+}
+:root{
+	--primary-color:#0D1847;
+	--secondary-color:#f5af43;
+	--third-color:#00b1e5;
+}
+body {
+	background: url('../images/main-bg.jpg');
+	background-repeat: no-repeat;
+	background-size: cover;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	font-family: 'Montserrat', sans-serif;
+	height: 100vh;
+	margin: -20px 0 50px;
+    overflow: hidden;
+	position: relative;
+}
+body::before{content: "";position: absolute;background: linear-gradient(90deg, rgba(2,1,9,0.5774509632954745) 0%, rgba(4,4,19,0.6362744927072391) 35%, rgba(13,28,31,0.5438375179173232) 100%);}
+.wrapper {
+    width: 100%; /* You can adjust this value to your preference */
+	max-width: 1367px;
+    margin: 0 auto; /* This centers the wrapper horizontally */
+    padding: 20px; /* Optional: Add padding to the wrapper */
+    box-sizing: border-box; /* Ensures padding is included in the width */
+}
+#app {
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh;
+}
+
+header {
+	background-color: #2f8d46;
+	color: white;
+	text-align: center;
+	padding: 1em;
+}
+
+nav {
+	background-color: #4caf50;
+}
+
+nav ul {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	display: flex;
+	justify-content: center;
+}
+
+nav li {
+	margin: 0;
+}
+
+nav a {
+	text-decoration: none;
+	color: #fff;
+	padding: 1em;
+	display: block;
+	transition: background-color 0.3s ease;
+}
+
+nav a:hover {
+	background-color: #45a049;
+}
+
+main {
+	flex: 1;
+	padding: 1em;
+}
+
+#content {
+	max-width: 1000px;
+	margin: 0 auto;
+	background-color: #fff;
+	padding: 20px;
+	border-radius: 8px;
+	box-shadow:
+0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+#content h2 {
+	color: #2f8d46;
+}
+
+#content img {
+	width: 400px;
+	height: auto;
+	margin: 0 auto;
+	display: block;
+	border-radius: 10px;
+	box-shadow: 
+2px 2px 5px rgba(0, 0, 0, 0.2);
+	border: 3px solid #2F8D46;
+}
+
+form {
+	max-width: 400px;
+	margin: 20px auto;
+	padding: 20px;
+	background-color: #f0f0f0;
+	border-radius: 8px;
+	box-shadow: 
+0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+form label {
+	display: block;
+	margin-bottom: 8px;
+}
+
+form input,
+form textarea {
+	width: 100%;
+	padding: 8px;
+	margin-bottom: 16px;
+	box-sizing: border-box;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+}
+
+form button {
+	background-color: #4caf50;
+	color: #fff;
+	padding: 10px;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+	transition: 
+background-color 0.3s ease;
+}
+
+form button:hover {
+	background-color: #45a049;
+}
+.main-con {position: relative;}
+.main-holder{display: flex;min-height: 400px;justify-content: space-evenly;flex-direction: row;align-items: center; gap: 20px;}
+.main-holder section{width: 100%;max-width: 800px; padding: 30px;}
+.main-holder section:first-child{max-width: 600px; animation-name:bounceInUp;animation-duration: 2s;}
+
+.main-holder section:first-child img {display: block; margin-bottom: 50px;animation-name:bounceInUp;animation-duration: 2s;}
+.main-holder section:first-child a{ padding: 20px;background: var(--secondary-color);color: #fff; text-decoration: none; font-size: 20px; font-weight: 600;border-top:20px;animation-name:shakeY;animation-duration: 2s;}
+.main-holder section:first-child a:hover{background:var(--primary-color); color: var(--secondary-color); transition: ease-in-out .2s;}
+p .comp-name{font-weight: 700; color: var(--secondary-color);}
+
+
+
+.main-holder section:nth-child(2){max-width: 900px; position: relative;color: #000;padding: 0 230px 0 0; animation-name: bounceInRight;animation-duration: 2s;}
+.main-holder section:nth-child(2) img{position: absolute; width: 300px;top: 0;right: 0;  filter: drop-shadow(0.35rem 0.35rem 0.4rem rgba(0, 0, 0, 0.5)); }
+.main-holder section:nth-child(2) p{position: relative;z-index: 2;font-size: 20px; padding: 30px}
+.main-holder section:nth-child(2) p::before{content: "";display: block;position: absolute;top: 33px;background: var(--primary-color);width: 5px;z-index: 10;height: 310px;left: 15px;}
+.main-holder section:nth-child(2)::before{content: "";display: block;position: absolute;top: -277px;border-radius: 81% 19% 71% 29% / 45% 74% 25% 55%;width: 1000px;background: #fff;height: 1000px;right: -191px;z-index: 0;}
+
+
+

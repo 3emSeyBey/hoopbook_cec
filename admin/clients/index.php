@@ -32,7 +32,7 @@
 				<tbody>
 					<?php 
 					$i = 1;
-						$qry = $conn->query("SELECT *,concat(lastname, ', ', firstname) as fullname from `client_list` where delete_flag= 0 order by concat(lastname, ', ', firstname) asc ");
+						$qry = $conn->query("SELECT *,concat(lastname, ', ', firstname) as fullname from `accounts` where delete_flag= 0 and account_type = 1 order by concat(lastname, ', ', firstname) asc ");
 						while($row = $qry->fetch_assoc()):
 							foreach($row as $k=> $v){
 								$row[$k] = trim(stripslashes($v));

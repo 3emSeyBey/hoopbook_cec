@@ -41,7 +41,7 @@
                       <a href="<?php echo base_url ?>admin/?page=court_rentals" class="nav-link nav-court_rentals">
                        <i class="nav-icon fas fa-tasks"></i>
                         <p>
-                          Reserved List
+                          View Reservations
                         </p>
                       </a>
                     </li>
@@ -49,53 +49,10 @@
                       <a href="<?php echo base_url ?>admin/?page=clients" class="nav-link nav-clients">
                         <i class="nav-icon fas fa-users"></i>
                         <p>
-                          Registered Clients
+                          Book Reservations
                         </p>
                       </a>
                     </li>            
-                    <li class="nav-header">Reports</li>
-                    <li class="nav-item dropdown">
-                      <a href="<?php echo base_url ?>admin/?page=reports/daily_court_rental_report" class="nav-link nav-reports_daily_court_rental_report">
-                        <i class="nav-icon far fa-circle"></i>
-                        <p>
-                          Daily Court Rentals Report
-                        </p>
-                      </a>
-                    </li>
-                    <li class="nav-header">Master List</li>
-                    <li class="nav-item dropdown">
-                      <a href="<?php echo base_url ?>admin/?page=courts" class="nav-link nav-courts">
-                        <i class="nav-icon fas fa-th-list"></i>
-                        <p>
-                          Court List
-                        </p>
-                      </a>
-                    </li>
-                    <li class="nav-item dropdown">
-                    <a href="<?php echo base_url ?>admin/?page=calendar" class="nav-link nav-calendar">
-                        <i class="nav-icon fas fa fa-calendar"></i>
-                        <p> 
-                          Calendar
-                        </p>
-                      </a>
-                    </li>
-                    <li class="nav-item dropdown">
-                    <a href="<?php echo base_url ?>admin/?page=payments" class="nav-link nav-payments">
-                        <i class="nav-icon fas fa-cash-register"></i>
-                        <p> 
-                          Payments
-                        </p>
-                      </a>
-                    </li>
-                    <li class="nav-header">Maintenance</li>
-                    <li class="nav-item dropdown">
-                      <a href="<?php echo base_url ?>admin/?page=user/list" class="nav-link nav-user_list">
-                        <i class="nav-icon fas fa-users-cog"></i>
-                        <p>
-                          User List
-                        </p>
-                      </a>
-                    </li>
                   </ul>
                 </nav>
                 <!-- /.sidebar-menu -->

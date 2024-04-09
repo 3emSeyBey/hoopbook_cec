@@ -1,6 +1,6 @@
 <?php
 if(isset($_GET['id']) && $_GET['id'] > 0){
-    $qry = $conn->query("SELECT * from `client_list` where id = '{$_GET['id']}' ");
+    $qry = $conn->query("SELECT * from `accounts` where id = '{$_GET['id']}' ");
     if($qry->num_rows > 0){
         foreach($qry->fetch_assoc() as $k => $v){
             $$k=stripslashes($v);
@@ -22,13 +22,6 @@ if(isset($_GET['id']) && $_GET['id'] > 0){
 			<div class="form-group">
 				<label for="lastname" class="control-label">Last Name</label>
                 <input name="lastname" id="lastname" type="text" class="form-control rounded-0" value="<?php echo isset($lastname) ? $lastname : ''; ?>" required>
-			</div>
-			<div class="form-group">
-				<label for="gender" class="control-label">Gender</label>
-                <select name="gender" id="gender" class="custom-select selevt">
-                <option <?php echo isset($gender) && $gender == 'Male' ? 'selected' : '' ?>>Male</option>
-                <option <?php echo isset($gender) && $gender == 'Female' ? 'selected' : '' ?>>Female</option>
-                </select>
 			</div>
             <div class="form-group">
 				<label for="contact" class="control-label">Contact</label>
@@ -88,7 +81,7 @@ if(isset($_GET['id']) && $_GET['id'] > 0){
 			 $('.err-msg').remove();
 			start_loader();
 			$.ajax({
-				url:_base_url_+"classes/Users.php?f=save_client",
+				url:_base_url_+"classes/Users.php?f=save_user",
 				data: new FormData($(this)[0]),
                 cache: false,
                 contentType: false,
