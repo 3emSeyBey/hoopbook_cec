@@ -8,7 +8,7 @@ Admin
 email: admin@email.com
 pass: admin123
 
-**Database Details**
+**DATABASE DETAILS**
 
 phpmyadmin: https://www.phpmyadmin.co/
 Server: sql6.freemysqlhosting.net
