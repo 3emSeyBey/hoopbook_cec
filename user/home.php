@@ -1,82 +1,55 @@
-
 <div class="row">
-    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-      <div class="info-box">
-        <span class="info-box-icon bg-gradient-secondary elevation-1"><i class="fas fa-th-list"></i></span>
-        <div class="info-box-content">
-          <span class="info-box-text">Total Courts</span>
-          <span class="info-box-number text-right">
-            <?php 
-              $court = $conn->query("SELECT * FROM court_list where `delete_flag` = 0 and `status` = 1")->num_rows;
-              echo format_num($court);
-            ?>
-            <?php ?>
-          </span>
-        </div>
-        <!-- /.info-box-content -->
-      </div>
-      <!-- /.info-box -->
-    </div>
+  <div class="container">
+    <h1>HOOP<span>BOOK</span><h1>
+    <a class="blink" href="<?php echo base_url ?>user/?page=add" ?>Reserved Now!</a>
+  </div>
+  <style>
+    .row{ 
+        width: 100%;
+        height: 100%;
+        background-color: blue;
+    }
+    .container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+    }
 
+    .blink {
+        animation: blinker 1.5s linear infinite;
+        color: red;
+        font-size: 1.5em;
+        /* Larger, responsive font size */
+        margin-bottom: 20px;
+    }
 
-    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-            <div class="info-box">
-              <span class="info-box-icon bg-gradient-primary elevation-1"><i class="fas fa-users"></i></span>
-
-              <div class="info-box-content">
-                <span class="info-box-text">Registered Clients</span>
-                <span class="info-box-number text-right">
-                  <?php 
-                    $mechanics = $conn->query("SELECT sum(id) as total FROM `client_list` where delete_flag = 0 ")->fetch_assoc()['total'];
-                    echo number_format($mechanics);
-                  ?>
-                </span>
-              </div>
-              <!-- /.info-box-content -->
-            </div>
-            <!-- /.info-box -->
-    </div>
-
-
-
-  
-    <!-- /.col -->
-    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-      <div class="info-box">
-        <span class="info-box-icon bg-gradient-light elevation-1"><i class="fas fa-coins"></i></span>
-        <div class="info-box-content">
-          <span class="info-box-text">Today's Total Rentals</span>
-          <span class="info-box-number text-right">
-            <?php 
-              $court = $conn->query("SELECT COALESCE(SUM(total),0) FROM court_rentals where date(date_created) = '".(date("Y-m-d"))."' ")->fetch_array()[0];
-              echo format_num($court);
-            ?>
-            <?php ?>
-          </span>
-        </div>
-        <!-- /.info-box-content -->
-      </div>
-      <!-- /.info-box -->
-    </div>
-    <!-- /.col -->
-
-    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-          <div class="info-box">
-              <span class="info-box-icon bg-gradient-light elevation-1"><i class="fas fa-tasks"></i></span>
-              <div class="info-box-content">
-                <span class="info-box-text">Upcoming Bookings</span>
-                <span class="info-box-number text-right">
-                <?php 
-                    $mechanics = $conn->query("SELECT COUNT(*) as total FROM `court_rentals` WHERE status = 0")->fetch_assoc()['total'];
-                    echo number_format($mechanics);
-                  ?>
-                </span>
-              </div>
-              <!-- /.info-box-content -->
-            </div>
-            <!-- /.info-box -->
-    </div>
-
-
-
+    @keyframes blinker {
+        50% {
+            opacity: 0;
+        }
+    }
+    .container h1{
+        font-size: 100px;
+        color: #0D1847;
+        font-family: sans-serif;
+    }
+    .container span{
+        background: #0D1847;
+        color: #F5AF43;
+        padding: 10px 20px;
+        font-family: sans-serif;
+    }
+    .container a{
+        font-size: 50px;
+        margin: 0;
+        text-decoration: none;
+        background: #F5AF43;
+        height: 50px;
+        width: 100px;
+        padding: 5px 20px;
+        border-radius: 5px;
+    }
+  </style>
 </div>
+

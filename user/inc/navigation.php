@@ -16,7 +16,7 @@
 <!-- Main Sidebar Container -->
       <aside class="main-sidebar sidebar-dark-primary elevation-4 sidebar-no-expand">
         <!-- Brand Logo -->
-        <a href="<?php echo base_url ?>admin" class="brand-link bg-gradient-primary text-sm" style="text-align: center;">HoopBook
+        <a href="<?php echo base_url ?>user" class="brand-link bg-gradient-primary text-sm" style="text-align: center;">HoopBook
         <span class="brand-text font-weight-light"><?php echo $_settings->info('short_name') ?></span>
         </a>
         <!-- Sidebar -->
@@ -38,15 +38,15 @@
                    <ul class="nav nav-pills nav-sidebar flex-column text-sm nav-compact nav-flat nav-child-indent nav-collapse-hide-child" data-widget="treeview" role="menu" data-accordion="false">
                     <li class="nav-header">Main</li>
                     <li class="nav-item dropdown">
-                      <a href="<?php echo base_url ?>admin/?page=court_rentals" class="nav-link nav-court_rentals">
+                      <a href="<?php echo base_url ?>user/?page=view" class="nav-link nav-view">
                        <i class="nav-icon fas fa-tasks"></i>
                         <p>
-                          View Reservations
+                          View/Manage Reservations
                         </p>
                       </a>
                     </li>
                     <li class="nav-item dropdown">
-                      <a href="<?php echo base_url ?>admin/?page=clients" class="nav-link nav-clients">
+                      <a href="<?php echo base_url ?>user/?page=add" class="nav-link nav-add">
                         <i class="nav-icon fas fa-users"></i>
                         <p>
                           Book Reservations
