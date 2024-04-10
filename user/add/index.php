@@ -10,8 +10,13 @@
 	<div class="card-body">
 		<div class="container-fluid">
             <!-- Start Content Here -->
-            <p>Content for Booking Reservations</p>
+            <p class ="sheesh">Content for Booking Reservations</p>
             <!-- End Content -->
         </div>
     </div>
+    <style>
+        .sheesh {
+            color: red;
+        }
+    </style>
 </div>
