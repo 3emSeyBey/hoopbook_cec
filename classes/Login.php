@@ -9,9 +9,6 @@ class Login extends DBConnection {
 		parent::__construct();
 		ini_set('display_error', 1);
 	}
-	public function __destruct(){
-		parent::__destruct();
-	}
 	public function index(){
 		echo "<h1>Access Denied</h1> <a href='".base_url."'>Go Back.</a>";
 	}
@@ -41,7 +38,7 @@ class Login extends DBConnection {
 	}
 	public function logout(){
 		if($this->settings->sess_des()){
-			redirect('../login_form.php');
+			redirect('./login_form.php');
 		}
 	}
 	public function register(){

@@ -6,8 +6,8 @@
   <style>
     .row{ 
         width: 100%;
-        height: 100%;
-        background-color: blue;
+        height: calc(100vh - 69px);
+        align-items: center;
     }
     .container {
         display: flex;

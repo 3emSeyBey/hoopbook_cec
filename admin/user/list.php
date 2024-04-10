@@ -28,6 +28,7 @@
 						<th>Last Name</th>
 						<th>Email</th>
 						<th>Type</th>
+						<th>Status</th>
 						<th>Action</th>
 					</tr>
 				</thead>
@@ -43,22 +44,29 @@
 							<td><?php echo $row['lastname'] ?></td>
 							<td><?php echo $row['email'] ?></td>
 							<td class="text-center">
-                                <?php if($row['account_type'] == 0): ?>
-                                    Administrator
-                                <?php elseif($row['account_type'] == 1): ?>
-                                    User
-                                <?php endif; ?>
-                            </td>
+								<?php if($row['account_type'] == 0): ?>
+									<span style="color: green;">Administrator</span>
+								<?php elseif($row['account_type'] == 1): ?>
+									<span style="color: black;">User</span>
+								<?php endif; ?>
+							</td>
+							<td class="text-center">
+								<?php if($row['status'] == 1): ?>
+									<span class="badge badge-success">Active</span>
+								<?php else: ?>
+									<span class="badge badge-danger">Inactive</span>
+								<?php endif; ?>
+							</td>
 							<td align="center">
 								 <button type="button" class="btn btn-flat p-1 btn-default btn-sm dropdown-toggle dropdown-icon" data-toggle="dropdown">
 				                  		Action
 				                    <span class="sr-only">Toggle Dropdown</span>
 				                  </button>
 				                  <div class="dropdown-menu" role="menu">
-				                    <a class="dropdown-item" href="./?page=user/manage_user&id=<?= $row['id'] ?>"><span class="fa fa-edit text-dark"></span> Edit</a>
-				                    <div class="dropdown-divider"></div>
-				                    <a class="dropdown-item delete_data" href="javascript:void(0)" data-id="<?php echo $row['id'] ?>"><span class="fa fa-trash text-danger"></span> Delete</a>
-				                  </div>
+								  	<button class="dropdown-item toggle-status" type="button" data-id="<?= $row['id'] ?>">Toggle Status</button>
+									<div class="dropdown-divider"></div>
+									<button class="dropdown-item toggle-user-type" type="button" data-id="<?= $row['id'] ?>">Toggle User Type</button>
+								</div>
 							</td>
 						</tr>
 					<?php endwhile; ?>
@@ -68,37 +76,35 @@
 	</div>
 </div>
 <script>
-	$(document).ready(function(){
-		$('.delete_data').click(function(){
-			_conf("Are you sure to delete this User permanently?","delete_user",[$(this).attr('data-id')])
-		})
-		$('.table').dataTable({
-			columnDefs: [
-					{ orderable: false, targets: [6] }
-			],
-			order:[0,'asc']
-		});
-		$('.dataTable td,.dataTable th').addClass('py-1 px-2 align-middle')
-	})
-	function delete_user($id){
-		start_loader();
+	function toggle(url, id) {
 		$.ajax({
-			url:_base_url_+"classes/Users.php?f=delete",
-			method:"POST",
-			data:{id: $id},
-			error:err=>{
+			url: url,
+			type: 'POST',
+			data: { id: id },
+			error: err => {
 				console.log(err)
 				alert_toast("An error occured.",'error');
 				end_loader();
 			},
-			success:function(resp){
+			success: resp => {
 				if(resp == 1){
 					location.reload();
 				}else{
-					alert_toast("An error occured.",'error');
+					alert_toast("An error occured",'error');
 					end_loader();
 				}
 			}
-		})
+		});
 	}
+
+	$('.toggle-status').click(function() {
+		var id = $(this).data('id');
+		toggle(_base_url_+'classes/Users.php?f=toggle_status', id);
+	});
+
+	$('.toggle-user-type').click(function() {
+		var id = $(this).data('id');
+		toggle(_base_url_+'classes/Users.php?f=toggle_type', id);
+	});
+		
 </script>

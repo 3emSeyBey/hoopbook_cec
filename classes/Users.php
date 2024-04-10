@@ -7,11 +7,34 @@ Class Users extends DBConnection {
 		$this->settings = $_settings;
 		parent::__construct();
 	}
-	public function __destruct(){
-		parent::__destruct();
+	public function update_user_status(){
+		extract($_POST);
+		$id = $_POST['id'];
+		$status = $this->conn->query("SELECT status FROM accounts WHERE id = '{$id}'")->fetch_assoc()['status'];
+		$status = $status == 0 ? 1 : 0;
+		$update = $this->conn->query("UPDATE `accounts` set `status` = '{$status}' where id = '{$id}'");
+		if($update){
+			$this->settings->set_flashdata('success','User\'s Status has been updated successfully.');
+			return 1;
+		}else{
+			return false;
+		}
 	}
 
-	
+	public function update_user_type(){
+		extract($_POST);
+		$id = $_POST['id'];
+		$type = $this->conn->query("SELECT account_type FROM accounts where id = '{$id}' ")->fetch_assoc()['account_type'];
+		$type = $type == 0 ? 1 : 0;
+		$update = $this->conn->query("UPDATE `accounts` set `account_type` = '{$type}' where id = '{$id}'");
+		if($update){
+			$this->settings->set_flashdata('success','User\'s Type has been updated successfully.');
+			return 1;
+		}else{
+			return false;
+		}
+	}
+
 	public function save_users(){
 		if(empty($_POST['password']))
 			unset($_POST['password']);
@@ -19,12 +42,10 @@ Class Users extends DBConnection {
 		extract($_POST);
 		$data = '';
 		foreach($_POST as $k => $v){
-			if(!in_array($k,array('id'))){
 				if(!empty($data)) $data .=" , ";
 				$data .= " {$k} = '{$v}' ";
-			}
 		}
-		if(empty($id)){
+		if(empty($_POST['id'])){
 			$qry = $this->conn->query("INSERT INTO accounts set {$data}");
 			if($qry){
 				$id=$this->conn->insert_id;
@@ -37,26 +58,24 @@ Class Users extends DBConnection {
 					}
 				}
 				return json_encode(array('status'=>'success','id'=>$id));
-			
 			}else{
 				return 2;
 			}
 			
 		}else{
-			$qry = $this->conn->query("UPDATE accounts set $data where id = {$id}");
+			$qry = $this->conn->query("UPDATE accounts set $data where id = {$_POST['id']}");
 			if($qry){
 				$this->settings->set_flashdata('success','User Details successfully updated.');
 				foreach($_POST as $k => $v){
 					if($k != 'id'){
 						if(!empty($data)) $data .=" , ";
-						if($this->settings->userdata('id') == $id)
+						if($this->settings->userdata('id') == $_POST['id'])
 							$this->settings->set_userdata($k,$v);
 					}
 				}
-			
-				return 1;
+				return json_encode(array('status'=>'success','id'=>$_POST['id']));
 			}else{
-				return "UPDATE users set $data where id = {$id}";
+				return false;
 			}
 			
 		}
@@ -273,6 +292,12 @@ switch ($action) {
 	break;
 	case 'delete_individual':
 		echo $users->delete_individual();
+	break;
+	case 'toggle_status':
+		echo $users->update_user_status();
+	break;
+	case 'toggle_type':
+		echo $users->update_user_type();
 	break;
 	default:
 		// echo $sysset->index();

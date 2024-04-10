@@ -7,9 +7,6 @@ Class Master extends DBConnection {
 		$this->settings = $_settings;
 		parent::__construct();
 	}
-	public function __destruct(){
-		parent::__destruct();
-	}
 	function capture_err(){
 		if(!$this->conn->error)
 			return false;

@@ -7,8 +7,7 @@ class SystemSettings extends DBConnection{
 	public function __construct(){
 		parent::__construct();
 	}
-	function __destruct(){
-	}
+
 	function check_connection(){
 		return($this->conn);
 	}
