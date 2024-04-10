@@ -1,30 +1,50 @@
-Free Download Source Code "HoopBook"
+██╗  ██╗ ██████╗  ██████╗ ██████╗     ██████╗  ██████╗  ██████╗ ██╗  ██╗
+██║  ██║██╔═══██╗██╔═══██╗██╔══██╗    ██╔══██╗██╔═══██╗██╔═══██╗██║ ██╔╝
+███████║██║   ██║██║   ██║██████╔╝    ██████╔╝██║   ██║██║   ██║█████╔╝ 
+██╔══██║██║   ██║██║   ██║██╔═══╝     ██╔══██╗██║   ██║██║   ██║██╔═██╗ 
+██║  ██║╚██████╔╝╚██████╔╝██║         ██████╔╝╚██████╔╝╚██████╔╝██║  ██╗
+╚═╝  ╚═╝ ╚═════╝  ╚═════╝ ╚═╝         ╚═════╝  ╚═════╝  ╚═════╝ ╚═╝  ╚═╝
 
-FIRST Download
 
-1.XAMPP
+# 🏀 HOOPBOOK Project 🏀
 
-2."TEXT EDITOR" NOTEPAD++ OR SUBLIME TEXT 3 / ETC.
+This project is a web application built with PHP. It's a simple application that allows users to reserve a spot.
 
-3"abcrs"
+## 📂 Project Structure
 
-4. Download the zip file/ download winrar
+The main file of the project is `home.php`. This file contains the HTML structure of the home page and some inline CSS for styling.
 
-5. Extract the file and copy "HoopBook" folder
+## 🚀 Getting Started
 
-6.Paste inside root directory/ where you install xammp local disk C: drive D: drive E: paste: (for xampp/htdocs, 
+To get started with this project, clone the repository and set up a local development environment with a PHP server.
 
-7. Open PHPMyAdmin (http://localhost/phpmyadmin)
+## 🎯 Usage
 
-8. Create a database with name HoopBook_db.SQL
+Navigate to the home page (`home.php`). You will see a "Reserve Now!" button. Click on this button to reserve a spot.
 
-6. Import abcrs_db.sql file(given inside the zip package in SQL file folder)
+## 🤝 Contributing
 
-7.Run the script http://localhost/HoopBook
+Contributions are welcome. Please open an issue or submit a pull request.
 
-**LOGIN DETAILS** 
+## 📝 License
 
-Admin
-user: admin
-pass: admin123	
+This project is licensed under the MIT License.
 
+## 🔐 Login Details
+
+**User**
+- Email: client@email.com
+- Password: client123
+
+**Admin**
+- Email: admin@email.com
+- Password: admin123
+
+## 🗄️ Database Details
+
+- phpMyAdmin: [https://www.phpmyadmin.co/](https://www.phpmyadmin.co/)
+- Server: sql6.freemysqlhosting.net
+- Name: sql6698012
+- Username: sql6698012
+- Password: RktzTYAizq
+- Port number: 3306
