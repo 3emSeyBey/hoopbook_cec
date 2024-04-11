@@ -2,6 +2,8 @@ const daysTag = document.querySelector(".days"),
 currentDate = document.querySelector(".current-date"),
 prevNextIcon = document.querySelectorAll(".icons span");
 
+const isFromUser = window.location.href.includes('user');
+
 // getting new date, current year and month
 let date = new Date(),
 currYear = date.getFullYear(),
@@ -12,7 +14,13 @@ var completeRows = [];
 const months = ["January", "February", "March", "April", "May", "June", "July",
               "August", "September", "October", "November", "December"];
 
+const testFunction = () => {
+    alert("test");
+}
+
 const renderCalendar = () => {
+    alert(isFromUser);
+    //check if a get data court_id is set
     let firstDayofMonth = new Date(currYear, currMonth, 1).getDay(), // getting first day of month
     lastDateofMonth = new Date(currYear, currMonth + 1, 0).getDate(), // getting last date of month
     lastDayofMonth = new Date(currYear, currMonth, lastDateofMonth).getDay(), // getting last day of month
@@ -52,6 +60,7 @@ const renderCalendar = () => {
             });
     
             // Add 'active' class to the clicked element
+
             this.classList.add('active');
     
             var selectedDay = this.textContent; // Get the selected day
@@ -79,7 +88,6 @@ function formatDate() {
         day = '0' + day;
     return month+' '+day+', '+year;
 }
-
 
 function filterTableByDate() {
     var formattedDate = formatDate();
@@ -115,6 +123,7 @@ function filterTableByDate() {
 }
 
 function fetchReservations(date) {
+    alert("asd");
     // Send an AJAX request to the server
     var xhr = new XMLHttpRequest();
     xhr.open('GET', 'calendar/index.php?fetch_reservations=true&date=' + date, true);
@@ -126,11 +135,13 @@ function fetchReservations(date) {
     };
     xhr.send();
 }
+
 renderCalendar();
 
 prevNextIcon.forEach(icon => { // getting prev and next icons
     icon.addEventListener("click", () => { // adding click event on both icons
         // if clicked icon is previous icon then decrement current month by 1 else increment it by 1
+        alert("clicked");
         currMonth = icon.id === "prev" ? currMonth - 1 : currMonth + 1;
 
         if(currMonth < 0 || currMonth > 11) { // if current month is less than 0 or greater than 11

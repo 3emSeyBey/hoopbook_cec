@@ -22,6 +22,7 @@
    <!-- Select2 -->
   <link rel="stylesheet" href="<?php echo base_url ?>plugins/select2/css/select2.min.css">
   <link rel="stylesheet" href="<?php echo base_url ?>plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
     <!-- iCheck -->
     <link rel="stylesheet" href="<?php echo base_url ?>plugins/icheck-bootstrap/icheck-bootstrap.min.css">
     <!-- JQVMap -->
@@ -47,12 +48,15 @@
       .sidebar-mini.layout-fixed.control-sidebar-slide-open>div[id]{display:none;}
     </style>
 
-     <!-- jQuery -->
+    <!-- jQuery -->
     <script src="<?php echo base_url ?>plugins/jquery/jquery.min.js"></script>
+    <!-- Bootstrap -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
     <!-- jQuery UI 1.11.4 -->
     <script src="<?php echo base_url ?>plugins/jquery-ui/jquery-ui.min.js"></script>
     <!-- SweetAlert2 -->
     <script src="<?php echo base_url ?>plugins/sweetalert2/sweetalert2.min.js"></script>
+    
     <!-- Toastr -->
     <script src="<?php echo base_url ?>plugins/toastr/toastr.min.js"></script>
     <script>
