@@ -1,9 +1,21 @@
 <?php
 $dev_data = array('id'=>'-1','firstname'=>'','lastname'=>'','username'=>'','password'=>'5da283a2d990e8d8512cf967df5bc0d0','last_login'=>'','date_updated'=>'','date_added'=>'');
-if(!defined('base_url')) define('base_url','http://localhost/hoopbook/hoopbook_cec/');
+if(!defined('base_url')) define('base_url','http://localhost/hoopbook/');
 if(!defined('base_app')) define('base_app', str_replace('\\','/',__DIR__).'/' );
+
+
 if(!defined('DB_SERVER')) define('DB_SERVER',"sql6.freemysqlhosting.net:3306");
 if(!defined('DB_USERNAME')) define('DB_USERNAME',"sql6698012");
 if(!defined('DB_PASSWORD')) define('DB_PASSWORD',"RktzTYAizq");
 if(!defined('DB_NAME')) define('DB_NAME',"sql6698012");
+
+//Uncomment below and comment above if online database shows "Max connection" Error to use local db
+//Make sure local db is setup
+//See README for instructions
+
+// if(!defined('DB_SERVER')) define('DB_SERVER',"localhost");
+// if(!defined('DB_USERNAME')) define('DB_USERNAME',"root");
+// if(!defined('DB_PASSWORD')) define('DB_PASSWORD',"");
+// if(!defined('DB_NAME')) define('DB_NAME',"hoopbook_db");
 ?>
+
