@@ -22,7 +22,7 @@
 <?php endif;?>
 <div class="card card-outline card-primary" style="background-color: #0080ff;">
     <div class="card-header">
-        <h3 class="card-title" style = "color: white">Select Courts</h3>
+        <h3 class="card-title" style = "color: white">Book Reservation</h3>
     </div>
     <div class="card-body">
         <div class="container-fluid">
@@ -30,12 +30,16 @@
             <?php
                 // Check if court_id is provided in the GET parameters
                 if (isset($_GET['court_id'])) {
-                    echo "asd";
                     $court_id = $_GET['court_id'];
-                    // Run the query
-                    $stmt=$conn->query('SELECT * FROM court_rentals');
-                    $reservations = $stmt->fetch_assoc();
+                    // Prepare the query
+                    $stmt = $conn->prepare('SELECT * FROM court_rentals WHERE court_id = ?');
+                    $stmt->bind_param('i', $court_id);
+                    // Execute the query
+                    $stmt->execute();
+                    // Get the results
+                    $reservations = $stmt->get_result()->fetch_assoc();
                 }
+
             ?>
             <div class="wrapperx">
                 <header>

@@ -27,7 +27,7 @@ class Login extends DBConnection {
 			}
 			$this->settings->set_userdata('status',$data['status']);
 			$this->settings->set_userdata('login_type',3);
-			if($this->settings->userdata('account_type') == 1){
+			if($this->settings->userdata('account_type') == 2){
 				redirect('user');
 			} else {
 				redirect('admin');

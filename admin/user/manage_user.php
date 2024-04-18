@@ -55,13 +55,6 @@ if(isset($_GET['id'])){
 					</div>
 					<small><em class="text-muted">Fill only to update Client's Password</em></small>
 				</div>
-				<div class="form-group">
-					<label for="email" class="control-label">User Type</label>
-					<select name="account_type" id="account_type" class="custom-select selevt">
-						<option value="1" <?php echo isset($account_type) && $account_type == 1 ? 'selected' : '' ?>>User</option>
-						<option value="0" <?php echo isset($account_type) && $account_type == 0 ? 'selected' : '' ?>>Administrator</option>
-					</select>
-				</div>
 				<?php if(isset($_GET['id'])): ?>
 					<div class="form-group">
 						<label for="status" class="control-label">Status</label>

@@ -19,7 +19,6 @@ const testFunction = () => {
 }
 
 const renderCalendar = () => {
-    alert(isFromUser);
     //check if a get data court_id is set
     let firstDayofMonth = new Date(currYear, currMonth, 1).getDay(), // getting first day of month
     lastDateofMonth = new Date(currYear, currMonth + 1, 0).getDate(), // getting last date of month

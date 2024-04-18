@@ -63,6 +63,7 @@
                       </a>
                     </li>
                     <li class="nav-header">Master List</li>
+                    <?php if ($_settings->userdata('account_type') == 0): ?>
                     <li class="nav-item dropdown">
                       <a href="<?php echo base_url ?>admin/?page=courts" class="nav-link nav-courts">
                         <i class="nav-icon fas fa-th-list"></i>
@@ -71,6 +72,7 @@
                         </p>
                       </a>
                     </li>
+                    <?php endif; ?>
                     <li class="nav-item dropdown">
                     <a href="<?php echo base_url ?>admin/?page=calendar" class="nav-link nav-calendar">
                         <i class="nav-icon fas fa fa-calendar"></i>
@@ -79,6 +81,7 @@
                         </p>
                       </a>
                     </li>
+                    <?php if ($_settings->userdata('account_type') == 0): ?>
                     <li class="nav-item dropdown">
                     <a href="<?php echo base_url ?>admin/?page=payments" class="nav-link nav-payments">
                         <i class="nav-icon fas fa-cash-register"></i>
@@ -87,15 +90,18 @@
                         </p>
                       </a>
                     </li>
-                    <li class="nav-header">Maintenance</li>
-                    <li class="nav-item dropdown">
-                      <a href="<?php echo base_url ?>admin/?page=user/list" class="nav-link nav-user_list">
-                        <i class="nav-icon fas fa-users-cog"></i>
-                        <p>
-                          User List
-                        </p>
-                      </a>
-                    </li>
+                    <?php endif; ?>
+                    <?php if ($_settings->userdata('account_type') == 0): ?>
+                        <li class="nav-header">Maintenance</li>
+                        <li class="nav-item dropdown">
+                            <a href="<?php echo base_url ?>admin/?page=user/list" class="nav-link nav-user_list">
+                                <i class="nav-icon fas fa-users-cog"></i>
+                                <p>
+                                    User List
+                                </p>
+                            </a>
+                        </li>
+                    <?php endif; ?>
                   </ul>
                 </nav>
                 <!-- /.sidebar-menu -->

@@ -47,6 +47,8 @@
 								<?php if($row['account_type'] == 0): ?>
 									<span style="color: green;">Administrator</span>
 								<?php elseif($row['account_type'] == 1): ?>
+									<span style="color: black;">Staff</span>
+								<?php elseif($row['account_type'] == 2): ?>
 									<span style="color: black;">User</span>
 								<?php endif; ?>
 							</td>
