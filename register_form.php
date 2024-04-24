@@ -117,35 +117,35 @@
     }
 
     async function sendCodeToEmail(code, email) {
-        // const url = 'https://rapidmail.p.rapidapi.com/';
-        // const options = {
-        //     method: 'POST',
-        //     headers: {
-        //         'content-type': 'application/json',
-        //         'X-RapidAPI-Key': '3e7b41810dmsh36643b0730bb46fp1ab16bjsnf465416451bc',
-        //         'X-RapidAPI-Host': 'rapidmail.p.rapidapi.com'
-        //     },
-        //     body: JSON.stringify({
-        //         ishtml: 'false',
-        //         sendto: email,
-        //         name: 'HoopBook Reservation System - Dev',
-        //         replyTo: 'cechoopbookreservation24@gmail.com',
-        //         title: 'Here is your verification code!',
-        //         body: `Your verification code is: ${code}`
-        //     })
-        // };
+        const url = 'https://rapidmail.p.rapidapi.com/';
+        const options = {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json',
+                'X-RapidAPI-Key': '3e7b41810dmsh36643b0730bb46fp1ab16bjsnf465416451bc',
+                'X-RapidAPI-Host': 'rapidmail.p.rapidapi.com'
+            },
+            body: JSON.stringify({
+                ishtml: 'false',
+                sendto: email,
+                name: 'HoopBook Reservation System - Dev',
+                replyTo: 'cechoopbookreservation24@gmail.com',
+                title: 'Here is your verification code!',
+                body: `Your verification code is: ${code}`
+            })
+        };
 
-        // try {
-        //     const response = await fetch(url, options);
-        //     const result = await response.text();
-        //     console.log(result);
-        // } catch (error) {
-        //     console.error(error);
-        // }
+        try {
+            const response = await fetch(url, options);
+            const result = await response.text();
+            console.log(result);
+        } catch (error) {
+            console.error(error);
+        }
 
         // For now, we'll just log the code to the console
         // Uncomment above to test sending the email
-        console.log(`Your verification code is: ${code}`);
+        // console.log(`Your verification code is: ${code}`);
     }
     // Get the modal
     var modal = document.getElementById("myModal");
