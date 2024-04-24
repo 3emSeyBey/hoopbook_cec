@@ -202,25 +202,27 @@ class Master extends DBConnection
 		// Convert datetime_start and datetime_end to DateTime objects
 		$startDateTime = new DateTime($datetime_start);
 		$endDateTime = new DateTime($datetime_end);
+		$startDateTime->setTime($startDateTime->format('H'), 0, 0);
+		$endDateTime->setTime($endDateTime->format('H'), 0, 0);
 
 		// Get the day of the week (1 for Monday, 7 for Sunday)
 		$dayOfWeek = $startDateTime->format('N');
 
 		// Define the allowed start and end times for weekdays and weekends
-		$weekdayStart = new DateTime('19:00:00');
-		$weekdayEnd = new DateTime('23:59:59');
-		$weekendStart = new DateTime('12:00:00');
-		$weekendEnd = new DateTime('23:59:59');
+		$weekdayStart = (clone $startDateTime)->setTime(19, 0, 0);
+		$weekdayEnd = (clone $startDateTime)->setTime(23, 59, 59);
+		$weekendStart = (clone $startDateTime)->setTime(12, 0, 0);
+		$weekendEnd = (clone $startDateTime)->setTime(23, 59, 59);
 
 		// Check if the reservation times are within the allowed times
 		if (($dayOfWeek >= 1 && $dayOfWeek <= 5 && ($startDateTime < $weekdayStart || $endDateTime > $weekdayEnd)) ||
 			($dayOfWeek >= 6 && $dayOfWeek <= 7 && ($startDateTime < $weekendStart || $endDateTime > $weekendEnd))
 		) {
 			$resp['status'] = 'failed';
-			$resp['msg'] = "Reservations can only be booked from 7pm to 12am on Monday through Friday, and from 12pm to 12am on Saturday and Sunday. " . (string)$dayOfWeek;
+			$resp['msg'] = "Reservations can only be booked from 7pm to 12am on Monday through Friday, and from 12pm to 12am on Saturday and Sunday. ";
 			return json_encode($resp);
 		}
-		$cr_allowed = ['client_id', 'court_id', 'contact', 'court_price', 'datetime_start', 'datetime_end', 'hours', 'total', 'status'];
+		$cr_allowed = ['client_id', 'court_id', 'ref_number', 'court_price', 'datetime_start', 'datetime_end', 'hours', 'total', 'status'];
 		foreach ($_POST as $k => $v) {
 			if (in_array($k, $cr_allowed)) {
 				if (!empty($data)) $data .= ",";
@@ -228,7 +230,10 @@ class Master extends DBConnection
 				$data .= " `{$k}`='{$v}' ";
 			}
 		}
-
+		$datetime_start = $startDateTime->format('Y-m-d H:00:00');
+		$datetime_end = $endDateTime->format('Y-m-d H:00:00');
+		$data = preg_replace("/`datetime_start`='[^']*'/", "`datetime_start`='$datetime_start'", $data);
+		$data = preg_replace("/`datetime_end`='[^']*'/", "`datetime_end`='$datetime_end'", $data);
 		if (empty($id)) {
 			// Check for conflicting reservations
 			$conflict_check_sql = "SELECT * FROM `court_rentals` WHERE `court_id`='{$court_id}' AND ((`datetime_start` <= '{$datetime_end}' AND `datetime_end` >= '{$datetime_start}') OR (`datetime_end` >= '{$datetime_start}' AND `datetime_start` <= '{$datetime_end}'))";

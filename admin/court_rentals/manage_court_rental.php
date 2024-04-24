@@ -74,6 +74,9 @@ $gtotal = 0;
                                         id="datetime_start" name="datetime_start"
                                         value="<?= isset($datetime_start) ? date("Y-m-d\TH:i", strtotime($datetime_start)) : '' ?>"
                                         min="<?= date("Y-m-d\TH:i") ?>" required="required">
+                                    <small class="form-text text-muted">Note: Only the hour is recorded, minutes are
+                                        discarded.</small>
+
                                 </div>
                                 <div class="form-group col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-3">
                                     <label for="hours" class="control-label">Hours</label>
@@ -87,6 +90,8 @@ $gtotal = 0;
                                         id="datetime_end" name="datetime_end"
                                         value="<?= isset($datetime_end) ? date("Y-m-d\TH:i", strtotime($datetime_end)) : '' ?>"
                                         max="<?= date("Y-m-d\TH:i") ?>" readonly>
+                                    <small class="form-text text-muted">Note: Only the hour is recorded, minutes are
+                                        discarded.</small>
                                 </div>
                                 <div class="form-group col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-3">
                                     <label for="total" class="control-label">Total</label>

@@ -54,7 +54,7 @@ alert_toast("<?php echo $_settings->flashdata('success') ?>", 'success')
 							$client_name = '';
 							$client_id = $row['client_id'];
 							if ($client_id != '') {
-								$client_qry = $conn->query("SELECT CONCAT(firstname, ' ', lastname) AS fullname FROM `accounts` WHERE id = $client_id ");
+								$client_qry = $conn->query("SELECT CONCAT(firstname, ' ', lastname) AS fullname FROM `clients_list` WHERE id = $client_id ");
 								if ($client_qry->num_rows > 0) {
 									$client_name = $client_qry->fetch_assoc()['fullname'];
 								}
