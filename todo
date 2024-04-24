@@ -1,3 +1,8 @@
 => Fixed data entry on db for registration, email and account_id on clients_list is not correct
 => calendar display for available and not available needs implementing
 => logic fix: booking must only account for hours not including minutes
+=> reference number (reserved list) - beside date created
+=> add court rental - ui notice for accepting only hour
+=> add court rentl - backend implementation of recording only hour
+=> add court rental restriction on bookable time slot per day of the week
+=> forgot password (client) - login page.

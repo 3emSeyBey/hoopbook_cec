@@ -1,14 +1,16 @@
 <div class="row">
-  <div class="container">
-    <h1>HOOP<span>BOOK</span><h1>
-    <a class="blink" href="<?php echo base_url ?>user/?page=add" ?>Reserved Now!</a>
-  </div>
-  <style>
-    .row{ 
+    <div class="container">
+        <h1 style="background: red; padding: 25px;">HOOP<span>BOOK</span>
+            <h1>
+                <a class="blink" href="<?php echo base_url ?>user/?page=add" ?>Reserved Now!</a>
+    </div>
+    <style>
+    .row {
         width: 100%;
         height: calc(100vh - 69px);
         align-items: center;
     }
+
     .container {
         display: flex;
         align-items: center;
@@ -29,18 +31,21 @@
             opacity: 0;
         }
     }
-    .container h1{
+
+    .container h1 {
         font-size: 100px;
         color: #0D1847;
         font-family: sans-serif;
     }
-    .container span{
+
+    .container span {
         background: #0D1847;
         color: #F5AF43;
         padding: 10px 20px;
         font-family: sans-serif;
     }
-    .container a{
+
+    .container a {
         font-size: 50px;
         margin: 0;
         text-decoration: none;
@@ -50,6 +55,5 @@
         padding: 5px 20px;
         border-radius: 5px;
     }
-  </style>
+    </style>
 </div>
-
