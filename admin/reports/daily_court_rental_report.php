@@ -37,11 +37,10 @@
                 <colgroup>
 					<col width="5%">
 					<col width="15%">
+					<col width="15%">
 					<col width="20%">
 					<col width="20%">
-					<col width="15%">
-					<col width="15%">
-					<col width="10%">
+					<col width="20%">
 				</colgroup>
 				<thead>
 					<tr>
@@ -51,14 +50,13 @@
 						<th>Court</th>
 						<th>Start</th>
 						<th>End</th>
-						<th>Amount</th>
 					</tr>
 				</thead>
 				<tbody>
 					<?php 
                     $total = 0;
 					$i = 1;
-                    $qry = $conn->query("SELECT cr.*, c.name as `court` FROM `court_rentals` cr inner join court_list c on cr.court_id = c.id where date(cr.date_created) = '{$date}' order by c.`status` asc ");
+                    $qry = $conn->query("SELECT cr.*, c.name as `court` FROM `court_rentals` cr inner join court_list c on cr.court_id = c.id where date(cr.datetime_start) = '{$date}' order by c.`status` asc ");
                     while($row = $qry->fetch_assoc()):
                         $total += $row['total'];
 					?>
@@ -80,14 +78,9 @@
 							<td><?php echo $row['court'] ?></td>
 							<td class=""><?= date("M d, Y h:i A", strtotime($row['datetime_start'])) ?></td>
 							<td class=""><?= date("M d, Y h:i A", strtotime($row['datetime_end'])) ?></td>
-							<td class="text-right"><?php echo number_format($row['total']) ?></td>
 						</tr>
 					<?php endwhile; ?>
 				</tbody>
-                <tfoot>
-                    <th class="py-1 text-center" colspan="6">Total Court Rentals</th>
-                    <th class="py-1 text-right"><?= format_num($total,2) ?></th>
-                </tfoot>
 			</table>
 		</div>
 	</div>

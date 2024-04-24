@@ -27,7 +27,8 @@ $gtotal = 0;
 									<!-- <input type="text" class="form-control form-control-sm rounded-0" id="client_name" name="client_name" value="<?= isset($client_name) ? $client_name : '' ?>" required="required"> -->
 									<select name="client_id" id="client_id" class="form-control form-control-sm rounded-0" required="required">
 										<?php 
-										$court_qry = $conn->query("SELECT * FROM `accounts` where `status` = 1 and account_type=1 order by `id` asc");
+										$court_qry = $conn->query("SELECT * FROM `clients_list` order by `id` asc");
+										echo 'console.log('. json_encode($court_qry) .')';
 										while($row = $court_qry->fetch_assoc()):
 											$selected = '';
 											if(isset($id) && $client_id == $row['id']) {
@@ -37,10 +38,6 @@ $gtotal = 0;
 										<option value=<?= $row['id'] ?> <?= $selected ?>><?= $row['firstname'] . ' ' .$row['lastname'] ?></option>
 										<?php endwhile; ?>
 									</select>
-								</div>
-								<div class="form-group col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-3">
-									<label for="contact" class="control-label">Contact</label>
-									<input type="text" class="form-control form-control-sm rounded-0" id="contact" name="contact" value="<?= isset($contact) ? $contact : '' ?>" required="required">
 								</div>
 							</div>
 							<div class="row">

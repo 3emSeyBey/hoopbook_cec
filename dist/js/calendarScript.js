@@ -34,7 +34,7 @@ const renderCalendar = () => {
         // adding active class to li if the current day, month, and year matched
         if (i === new Date(date).getDate() && currMonth === new Date(date).getMonth() 
             && currYear === new Date(date).getFullYear()) {
-            liTag += `<li class="calendar-date active">${i}</li>`;
+           // liTag += `<li class="calendar-date active">${i}</li>`;
             continue;
         }
         else{

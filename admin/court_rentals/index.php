@@ -7,9 +7,11 @@
 <div class="card card-outline rounded-0 card-navy">
 	<div class="card-header">
 		<h3 class="card-title">List of Court Rentals</h3>
+		<?php if($_settings->userdata('account_type') == 0): ?>
 		<div class="card-tools">
 			<a href="./?page=court_rentals/manage_court_rental" class="btn btn-primary bg-gradient-primary btn-flat btn-sm"><i class="fa fa-plus"></i> Create New</a>
 		</div>
+		<?php endif; ?>
 	</div>
 	<div class="card-body">
         <div class="container-fluid">
@@ -80,7 +82,9 @@
 				                  <div class="dropdown-menu" role="menu">
 				                    <a class="dropdown-item view_data" href="./?page=court_rentals/view_court_rental&id=<?php echo $row['id'] ?>"><span class="fa fa-eye text-dark"></span> View</a>
 				                    <div class="dropdown-divider"></div>
+									<?php if($_settings->userdata('account_type') == 0): ?>
 				                    <a class="dropdown-item delete_data" href="javascript:void(0)" data-id="<?php echo $row['id'] ?>"><span class="fa fa-trash text-danger"></span> Delete</a>
+									<?php endif; ?>
 				                  </div>
 							</td>
 						</tr>

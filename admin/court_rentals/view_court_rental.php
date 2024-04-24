@@ -98,8 +98,10 @@ $gtotal = 0;
 			</div>
 			<div class="card-footer py-1 text-center">
 				<a class="btn btn-info btn-sm bg-gradient-info rounded-0" href="javascript:void(0)" id="update_status"> Update Status</a>
+				<?php if($_settings->userdata('account_type') == 0): ?>
 				<a class="btn btn-primary btn-sm bg-gradient-primary rounded-0" href="./?page=court_rentals/manage_court_rental&id=<?= isset($id) ? $id : '' ?>"><i class="fa fa-edit"></i> Edit</a>
 				<button class="btn btn-danger btn-sm bg-gradient-danger rounded-0" type="button" id="delete-data"><i class="fa fa-trash"></i> Delete</button>
+				<?php endif; ?>
 				<a class="btn btn-light btn-sm bg-gradient-light border rounded-0" href="./?page=court_rentals"><i class="fa fa-angle-left"></i> Back to List</a>
 			</div>
 		</div>

@@ -34,14 +34,6 @@ if(isset($_GET['id'])){
 					<input name="lastname" id="lastname" type="text" class="form-control rounded-0" value="<?php echo isset($lastname) ? $lastname : ''; ?>" required>
 				</div>
 				<div class="form-group">
-					<label for="contact" class="control-label">Contact</label>
-					<input name="contact" id="contact" type="text" class="form-control rounded-0" value="<?php echo isset($contact) ? $contact : ''; ?>" required>
-				</div>
-				<div class="form-group">
-					<label for="address" class="control-label">Address</label>
-					<textarea name="address" id="address"class="form-control rounded-0" required><?php echo isset($address) ? $address : ''; ?></textarea>
-				</div>
-				<div class="form-group">
 					<label for="email" class="control-label">Email</label>
 					<input name="email" id="email" type="email" class="form-control rounded-0" value="<?php echo isset($email) ? $email : ''; ?>" required>
 				</div>
@@ -53,7 +45,7 @@ if(isset($_GET['id'])){
 							<span class="input-group-text text-sm"><i class="fa fa-eye-slash text-muted pass_type" data-type="password"></i></span>
 						</div>
 					</div>
-					<small><em class="text-muted">Fill only to update Client's Password</em></small>
+					<small><em class="text-muted">If on update - fill only to update Staff's Password</em></small>
 				</div>
 				<?php if(isset($_GET['id'])): ?>
 					<div class="form-group">

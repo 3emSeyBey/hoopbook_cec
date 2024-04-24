@@ -32,7 +32,8 @@
 				<tbody>
 					<?php 
 					$i = 1;
-						$qry = $conn->query("SELECT *,concat(lastname, ', ', firstname) as fullname from `accounts` where delete_flag= 0 and account_type = 1 order by concat(lastname, ', ', firstname) asc ");
+						//$qry = $conn->query("SELECT *,concat(lastname, ', ', firstname) as fullname from `clients_list` order by concat(lastname, ', ', firstname) asc ");
+						$qry = $conn->query("SELECT CONCAT(clients_list.lastname, ', ', clients_list.firstname) AS fullname, clients_list.email, clients_list.contact, accounts.date_created, accounts.status FROM clients_list INNER JOIN accounts ON clients_list.account_id = accounts.id ORDER BY fullname ASC");
 						while($row = $qry->fetch_assoc()):
 							foreach($row as $k=> $v){
 								$row[$k] = trim(stripslashes($v));

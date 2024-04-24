@@ -81,7 +81,6 @@
                         </p>
                       </a>
                     </li>
-                    <?php if ($_settings->userdata('account_type') == 0): ?>
                     <li class="nav-item dropdown">
                     <a href="<?php echo base_url ?>admin/?page=payments" class="nav-link nav-payments">
                         <i class="nav-icon fas fa-cash-register"></i>
@@ -90,7 +89,6 @@
                         </p>
                       </a>
                     </li>
-                    <?php endif; ?>
                     <?php if ($_settings->userdata('account_type') == 0): ?>
                         <li class="nav-header">Maintenance</li>
                         <li class="nav-item dropdown">

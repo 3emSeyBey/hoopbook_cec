@@ -27,7 +27,6 @@
 						<th>First Name</th>
 						<th>Last Name</th>
 						<th>Email</th>
-						<th>Type</th>
 						<th>Status</th>
 						<th>Action</th>
 					</tr>
@@ -35,7 +34,7 @@
 				<tbody>
 					<?php 
 					$i = 1;
-						$qry = $conn->query("SELECT * from `accounts` where id != '{$_settings->userdata('id')}' order by concat(firstname,' ', lastname) asc ");
+						$qry = $conn->query("SELECT * from `accounts` where id != '{$_settings->userdata('id')}' and account_type = 1 order by concat(firstname,' ', lastname) asc ");
 						while($row = $qry->fetch_assoc()):
 					?>
 						<tr>
@@ -43,15 +42,6 @@
 							<td><?php echo $row['firstname'] ?></td>
 							<td><?php echo $row['lastname'] ?></td>
 							<td><?php echo $row['email'] ?></td>
-							<td class="text-center">
-								<?php if($row['account_type'] == 0): ?>
-									<span style="color: green;">Administrator</span>
-								<?php elseif($row['account_type'] == 1): ?>
-									<span style="color: black;">Staff</span>
-								<?php elseif($row['account_type'] == 2): ?>
-									<span style="color: black;">User</span>
-								<?php endif; ?>
-							</td>
 							<td class="text-center">
 								<?php if($row['status'] == 1): ?>
 									<span class="badge badge-success">Active</span>
