@@ -1,29 +1,35 @@
 const daysTag = document.querySelector(".days"),
-currentDate = document.querySelector(".current-date"),
-prevNextIcon = document.querySelectorAll(".icons span");
+    currentDate = document.querySelector(".current-date"),
+    prevNextIcon = document.querySelectorAll(".icons span");
 
 const isFromUser = window.location.href.includes('user');
+var url = new URL(window.location.href);
+var court_id = url.searchParams.get("court_id");
+url.pathname = url.pathname.substring(0, url.pathname.lastIndexOf('/'));
+var reservations = [];
+var resDatesSched = [];
+var dateAvailabilityArray = [];
 
 // getting new date, current year and month
 let date = new Date(),
-currYear = date.getFullYear(),
-currMonth = date.getMonth();
+    currYear = date.getFullYear(),
+    currMonth = date.getMonth();
 var completeRows = [];
 
 // storing full name of all months in array
 const months = ["January", "February", "March", "April", "May", "June", "July",
-              "August", "September", "October", "November", "December"];
-
-const testFunction = () => {
-    alert("test");
-}
+    "August", "September", "October", "November", "December"
+];
 
 const renderCalendar = () => {
+    if (isFromUser) {
+        getReservations();
+    }
     //check if a get data court_id is set
     let firstDayofMonth = new Date(currYear, currMonth, 1).getDay(), // getting first day of month
-    lastDateofMonth = new Date(currYear, currMonth + 1, 0).getDate(), // getting last date of month
-    lastDayofMonth = new Date(currYear, currMonth, lastDateofMonth).getDay(), // getting last day of month
-    lastDateofLastMonth = new Date(currYear, currMonth, 0).getDate(); // getting last date of previous month
+        lastDateofMonth = new Date(currYear, currMonth + 1, 0).getDate(), // getting last date of month
+        lastDayofMonth = new Date(currYear, currMonth, lastDateofMonth).getDay(), // getting last day of month
+        lastDateofLastMonth = new Date(currYear, currMonth, 0).getDate(); // getting last date of previous month
     let liTag = "";
 
     for (let i = firstDayofMonth; i > 0; i--) { // creating li of previous month last days
@@ -32,14 +38,14 @@ const renderCalendar = () => {
 
     for (let i = 1; i <= lastDateofMonth; i++) { // creating li of all days of current month
         // adding active class to li if the current day, month, and year matched
-        if (i === new Date(date).getDate() && currMonth === new Date(date).getMonth() 
-            && currYear === new Date(date).getFullYear()) {
-           // liTag += `<li class="calendar-date active">${i}</li>`;
+        if (i === new Date(date).getDate() && currMonth === new Date(date).getMonth() &&
+            currYear === new Date(date).getFullYear()) {
+            // liTag += `<li class="calendar-date active">${i}</li>`;
             continue;
-        }
-        else{
+        } else {
             liTag += `<li class="calendar-date">${i}</li>`;
         }
+
     }
 
     for (let i = lastDayofMonth; i < 6; i++) { // creating li of next month first days
@@ -52,26 +58,28 @@ const renderCalendar = () => {
             if (this.classList.contains('inactive')) {
                 return;
             }
-    
+
             // Remove 'active' class from all elements
             document.querySelectorAll('.calendar-date').forEach(function(dateElement) {
                 dateElement.classList.remove('active');
             });
-    
+
             // Add 'active' class to the clicked element
 
             this.classList.add('active');
-    
+
             var selectedDay = this.textContent; // Get the selected day
             var selectedDate = new Date(currYear, currMonth, selectedDay); // Construct the full date
-    
+
             // Format the date as a string
             var dateString = selectedDate.toLocaleDateString();
-    
-            date=dateString;
-            
+
+            date = dateString;
+
             // Alert the full date
             filterTableByDate();
+
+
         });
     });
     completeRows = document.querySelectorAll('#list tbody tr');
@@ -83,9 +91,9 @@ function formatDate() {
         day = '' + d.getDate(),
         year = d.getFullYear();
 
-    if (day.length < 2) 
+    if (day.length < 2)
         day = '0' + day;
-    return month+' '+day+', '+year;
+    return month + ' ' + day + ', ' + year;
 }
 
 function filterTableByDate() {
@@ -143,7 +151,7 @@ prevNextIcon.forEach(icon => { // getting prev and next icons
         alert("clicked");
         currMonth = icon.id === "prev" ? currMonth - 1 : currMonth + 1;
 
-        if(currMonth < 0 || currMonth > 11) { // if current month is less than 0 or greater than 11
+        if (currMonth < 0 || currMonth > 11) { // if current month is less than 0 or greater than 11
             // creating a new date of current year & month and pass it as date value
             date = new Date(currYear, currMonth, new Date().getDate());
             currYear = date.getFullYear(); // updating current year with new date year
@@ -154,3 +162,41 @@ prevNextIcon.forEach(icon => { // getting prev and next icons
         renderCalendar(); // calling renderCalendar function
     });
 });
+
+function getReservations() {
+    $.ajax({
+        url: 'add/getReservations.php',
+        type: 'get',
+        data: { court_id: court_id },
+        success: function(response) {
+            reservations = JSON.parse(response);
+            console.log("reservations");
+            console.log(reservations);
+
+            reservations.forEach(function(reservation) {
+                var datetime_start = new Date(reservation.datetime_start);
+                var date = datetime_start.toISOString().split('T')[0];
+
+                if (!resDatesSched.hasOwnProperty(date)) {
+                    resDatesSched[date] = reservation.hours;
+                    dateAvailabilityArray[date] = true;
+                } else {
+                    resDatesSched[date] += reservation.hours;
+                }
+                //check if the date is a weekend
+                var day = datetime_start.getDay();
+                if (day === 0 || day === 6) {
+                    if (resDatesSched[date] >= 5) {
+                        dateAvailabilityArray[date] = false;
+                    }
+                } else {
+                    if (resDatesSched[date] >= 12) {
+                        dateAvailabilityArray[date] = false;
+                    }
+                }
+            });
+
+        }
+    });
+
+}
