@@ -10,10 +10,245 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Automated Basketball Reservation System</title>
     <link rel="stylesheet" href="register_style.css">
+    <!-- Modal -->
+    
+</head>
+
+<body>
+    <div class="wrapper" id="wrapper-register">
+        <div class="form-box register">
+            <form id="register-form" action="./classes/Login.php?f=register" method="post">
+                <div class="banner">
+                    <h1>HOOP<span>BOOK</h1>
+                </div>    
+                <div class="input-box animation">
+                    <input type="text" name="firstname" id="firstname" autocomplete="off" required>
+                    <label>First Name</label>
+                </div>
+                
+                <div class="input-box animation">
+                    <input type="text" name="lastname"  id="lastname" autocomplete="off" required>
+                    <label>Last Name</label>
+                </div>
+
+                <div class="input-box animation">
+                <input type="text" name="contact" id="contact" min="0" max="999999999999"  required>
+                    <label>Contact #</label>
+                </div>
+
+                <div class="input-box animation">
+                <input type="text" name="address" id="address" required>
+                    <label>Address</label>
+                </div>
+
+                <div class="input-box animation">
+                    <input type="email" name="email" id="email" required>
+                    <label>Email</label>
+                </div>
+                <div class="input-box animation">
+                    <input type="password" name="password" id="password" required>
+                    <label>Password</label>
+                </div>
+                <div class="input-box animation">
+                    <input type="password" name="cpassword" id="cpassword" required>
+                    <label>Confirm Password</label>
+                </div>
+
+                <button type="submit" class="btn animation" name="submit-btn" id="myBtn">Sign Up</button>
+                <div class="logreg-link animation">
+                    <p>Already have an account? <a href="<?php echo base_url.'login_form.php' ?>" 
+                    class="">Login</a></p> 
+                </div>
+                <div id="myModal" class="modal">
+                <!-- Modal content -->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <span class="close">&times;</span>
+                        <h2>Enter OTP</h2>
+                    </div>
+                    <div class="modal-body">
+                        <p>We have sent a 6-digit OTP to your email. Please enter it below:<br>Note: If the email is not in your inbox, please check it on the spam<br>Email may take up to 5 minutes to arrive.</p>
+                        <input class = "modalInput" type="text" id="otp" name="otp" placeholder="Enter OTP" required>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="submit-btn" class="btn btn-primary modalBtn">Submit</button>
+                    </div>
+                </div>
+                </div>
+            </form>
+            <button >Open Modal</button>
+        </div>
+    </div>  
+</body>
+<script>
+    document.getElementById('myBtn').addEventListener('click', function(event) {
+        event.preventDefault();
+        generateAndSendCode();
+    });
+
+    document.getElementById('submit-btn').addEventListener('click', function(event) {
+        event.preventDefault();
+        submit();
+    });
+    async function submit(){
+        const enteredOtp = document.getElementById('otp').value;
+        const savedOtp = localStorage.getItem('code');
+
+        if (enteredOtp !== savedOtp) {
+            alert('Incorrect OTP. Please try again.');
+        } else {
+            // Submit the form
+            document.getElementById('register-form').submit();
+        }
+    }
+    async function generateAndSendCode() {
+        const email = document.getElementById('email').value;
+        // Generate a random 6-digit number
+        const code = Math.floor(100000 + Math.random() * 900000);
+
+        // Save the code to local storage
+        localStorage.setItem('code', code);
+
+        // Send the code to the email
+        await sendCodeToEmail(code, email);
+
+        // Show the modal
+        document.getElementById('modal').style.display = 'block';
+    }
+
+    async function sendCodeToEmail(code, email) {
+        // const url = 'https://rapidmail.p.rapidapi.com/';
+        // const options = {
+        //     method: 'POST',
+        //     headers: {
+        //         'content-type': 'application/json',
+        //         'X-RapidAPI-Key': '3e7b41810dmsh36643b0730bb46fp1ab16bjsnf465416451bc',
+        //         'X-RapidAPI-Host': 'rapidmail.p.rapidapi.com'
+        //     },
+        //     body: JSON.stringify({
+        //         ishtml: 'false',
+        //         sendto: email,
+        //         name: 'HoopBook Reservation System - Dev',
+        //         replyTo: 'cechoopbookreservation24@gmail.com',
+        //         title: 'Here is your verification code!',
+        //         body: `Your verification code is: ${code}`
+        //     })
+        // };
+
+        // try {
+        //     const response = await fetch(url, options);
+        //     const result = await response.text();
+        //     console.log(result);
+        // } catch (error) {
+        //     console.error(error);
+        // }
+
+        // For now, we'll just log the code to the console
+        // Uncomment above to test sending the email
+        console.log(`Your verification code is: ${code}`);
+    }
+    // Get the modal
+    var modal = document.getElementById("myModal");
+
+    // Get the button that opens the modal
+    var btn = document.getElementById("myBtn");
+
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+
+    // When the user clicks on the button, open the modal
+    btn.onclick = function() {
+    modal.style.display = "block";
+    }
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function() {
+    modal.style.display = "none";
+    }
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
+</script>
 <Style>
 
 @import url('https://fonts.googleapis.com/css2?family=Poppons:wght@300;400;500;600;700;800;900&display=swap');
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
 
+/* Modal Body */
+.modal-body {padding: 2px 16px;}
+
+/* Modal Content */
+.modal-content {
+  position: relative;
+  background-color: #fefefe;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  transform: translateY(-50%);
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+  animation-name: animatetop;
+  animation-duration: 0.4s;
+}
+
+.modalInput {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+}
+
+.modalBtn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+}
+
+.modalBtn:hover {
+    background-color: #45a049;
+}
+
+/* Add Animation */
+@keyframes animatetop {
+  from {top: -300px; opacity: 0}
+  to {top: 0; opacity: 1}
+}
+/* The Close Button */
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
 * {
     margin: 0;
     padding: 0;
@@ -247,58 +482,4 @@ body {
 
 
 </Style>
-</head>
-
-<body>
-
-    <div class="wrapper" id="wrapper-register">
-        <div class="form-box register">
-            <form action="./classes/Login.php?f=register" method="post">
-                <div class="banner">
-                    <h1>HOOP<span>BOOK</h1>
-                </div>    
-                <div class="input-box animation">
-                    <input type="text" name="firstname" id="firstname" autocomplete="off" required>
-                    <label>First Name</label>
-                </div>
-                
-                <div class="input-box animation">
-                    <input type="text" name="lastname"  id="lastname" autocomplete="off" required>
-                    <label>Last Name</label>
-                </div>
-
-                <div class="input-box animation">
-                <input type="text" name="contact" id="contact" min="0" max="999999999999"  required>
-                    <label>Contact #</label>
-                </div>
-
-                <div class="input-box animation">
-                <input type="text" name="address" id="address" required>
-                    <label>Address</label>
-                </div>
-
-                <div class="input-box animation">
-                    <input type="email" name="email" id="email" required>
-                    <label>Email</label>
-                </div>
-                <div class="input-box animation">
-                    <input type="password" name="password" id="password" required>
-                    <label>Password</label>
-                </div>
-                <div class="input-box animation">
-                    <input type="password" name="cpassword" id="cpassword" required>
-                    <label>Confirm Password</label>
-                </div>
-                
-                <button type="submit" class="btn animation" name="submit">Sign Up</button>
-                <div class="logreg-link animation">
-                    <p>Already have an account? <a href="<?php echo base_url.'login_form.php' ?>" 
-                    class="">Login</a></p> 
-                </div>
-            </form>
-        </div>
-
-    </div>
-    
-</body>
 </html>
