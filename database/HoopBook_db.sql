@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 24, 2024 at 10:54 AM
+-- Generation Time: Apr 24, 2024 at 01:11 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -49,7 +49,8 @@ INSERT INTO `accounts` (`id`, `firstname`, `lastname`, `email`, `password`, `ima
 (1, 'Jade', 'Lawas', 'user@email.com', 'user123', NULL, 1, 0, '2024-03-23 12:01:47', '2024-03-23 12:01:47', 2),
 (3, 'Sample', 'Sample', 'client@email.com', 'client123', 'dasdaser', 1, 0, '2024-04-07 14:21:59', '2024-04-09 13:02:43', 1),
 (4, 'Admin', 'Admin', 'admin@email.com', 'admin123', NULL, 1, 0, '2024-04-09 13:03:44', NULL, 0),
-(18, 'Samplex', 'User', 'staff2@email.com', 'staff2123', NULL, 1, 0, NULL, NULL, 1);
+(18, 'Samplex', 'User', 'staff2@email.com', 'staff2123', NULL, 1, 0, NULL, NULL, 1),
+(19, 'Mack', 'Bacarisas', 'mackcloydbacarisas@gmail.com', 'Ambotlang123!', NULL, 1, 0, NULL, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -72,7 +73,8 @@ CREATE TABLE `clients_list` (
 --
 
 INSERT INTO `clients_list` (`id`, `firstname`, `lastname`, `contact`, `email`, `address`, `account_id`) VALUES
-(0, 'Client', 'One', '09123123123123', 'eemseybey@gmail.com', 'asdasdasd', 1);
+(1, 'Client', 'One', '09123123123123', 'eemseybey@gmail.com', 'asdasdasd', 1),
+(2, 'Mack', 'Bacarisas', '09122321231', NULL, 'Address', 0);
 
 -- --------------------------------------------------------
 
@@ -85,6 +87,7 @@ CREATE TABLE `court_list` (
   `name` text NOT NULL,
   `price` float(12,2) NOT NULL DEFAULT 0.00,
   `status` tinyint(1) NOT NULL DEFAULT 1,
+  `img_src` text NOT NULL,
   `delete_flag` tinyint(1) NOT NULL DEFAULT 0,
   `date_created` datetime NOT NULL,
   `date_updated` datetime NOT NULL
@@ -94,13 +97,13 @@ CREATE TABLE `court_list` (
 -- Dumping data for table `court_list`
 --
 
-INSERT INTO `court_list` (`id`, `name`, `price`, `status`, `delete_flag`, `date_created`, `date_updated`) VALUES
-(1, 'Covered Court Gym', 1000.00, 1, 0, '2022-05-06 09:29:02', '2024-04-07 00:49:23'),
-(2, 'Basketball Court Reservation System', 700.00, 1, 0, '2022-05-06 09:30:05', '2024-03-20 13:52:17'),
-(6, 'Baranggay', 900.00, 1, 1, '2024-04-06 11:12:11', '2024-04-06 11:26:52'),
-(7, 'asda', 500.00, 1, 1, '2024-04-06 11:34:53', '2024-04-09 14:47:16'),
-(8, 'Court 3', 500.00, 1, 0, '2024-04-07 00:49:14', '2024-04-07 00:49:14'),
-(9, 'dummy', 1000000.00, 1, 0, '2024-04-09 14:47:29', '2024-04-09 14:47:29');
+INSERT INTO `court_list` (`id`, `name`, `price`, `status`, `img_src`, `delete_flag`, `date_created`, `date_updated`) VALUES
+(1, 'Covered Court Gym', 1000.00, 1, '../image/facility-1.jpeg', 0, '2022-05-06 09:29:02', '2024-04-07 00:49:23'),
+(2, 'Basketball Court Reservation System', 700.00, 1, '../image/facility-2.jpg', 0, '2022-05-06 09:30:05', '2024-03-20 13:52:17'),
+(6, 'Baranggay', 900.00, 1, '', 1, '2024-04-06 11:12:11', '2024-04-06 11:26:52'),
+(7, 'asda', 500.00, 1, '', 1, '2024-04-06 11:34:53', '2024-04-09 14:47:16'),
+(8, 'Court 3', 500.00, 1, '', 0, '2024-04-07 00:49:14', '2024-04-07 00:49:14'),
+(9, 'dummy', 1000000.00, 1, '', 0, '2024-04-09 14:47:29', '2024-04-09 14:47:29');
 
 -- --------------------------------------------------------
 
@@ -169,6 +172,12 @@ ALTER TABLE `accounts`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `clients_list`
+--
+ALTER TABLE `clients_list`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `court_list`
 --
 ALTER TABLE `court_list`
@@ -196,7 +205,13 @@ ALTER TABLE `sales_transaction`
 -- AUTO_INCREMENT for table `accounts`
 --
 ALTER TABLE `accounts`
-  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+
+--
+-- AUTO_INCREMENT for table `clients_list`
+--
+ALTER TABLE `clients_list`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `court_list`

@@ -23,7 +23,7 @@
             ?>
                 <div class="col-md-4">
                     <div class="card court-card" data-id = "<?php echo $row['id'] ?>" data-name="<?php echo $row['name'] ?>" data-price="<?php echo $row['price'] ?>" data-img="<?php echo $row['img_src'] ?>">
-                        <img src="<?php echo $row['img_src'] ?>" class="card-img-top" alt="Court Image" onerror="this.onerror=null; this.src='path/to/default/image.jpg';" style="width: 100%; height: 200px; object-fit: cover;">
+                        <img src="<?php echo $row['img_src'] ?>" class="card-img-top" alt="Court Image" onerror="this.onerror=null; this.src='../image/comp-logo.PNG';" style="width: 100%; height: 200px; object-fit: cover;">
                         <div class="card-body">
                             <h5 class="card-title"><?php echo $row['name'] ?></h5>
                             <p class="card-text"><?php echo $row['price'] ?></p>
