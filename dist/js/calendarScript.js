@@ -8,7 +8,7 @@ var court_id = url.searchParams.get("court_id");
 url.pathname = url.pathname.substring(0, url.pathname.lastIndexOf('/'));
 var reservations = [];
 var resDatesSched = [];
-var dateAvailabilityArray = [];
+var dateUnavailabilityArray = [];
 
 // getting new date, current year and month
 let date = new Date(),
@@ -21,10 +21,33 @@ const months = ["January", "February", "March", "April", "May", "June", "July",
     "August", "September", "October", "November", "December"
 ];
 
-const renderCalendar = () => {
-    if (isFromUser) {
-        getReservations();
-    }
+const renderCalendar = async() => {
+    resDatesSched = [];
+    await getReservations();
+    reservations.forEach(function(reservation) {
+        var datetime_start = new Date(reservation.datetime_start);
+        var date = datetime_start.toISOString().split('T')[0];
+        if (!resDatesSched[date]) {
+            resDatesSched[date] = 0;
+        }
+        resDatesSched[date] += reservation.hours;
+        //check if the date is a weekend
+        var day = datetime_start.getDay();
+        if (day === 0 || day === 6) {
+            if (resDatesSched[date] >= 12) {
+                if (!dateUnavailabilityArray.includes(date)) {
+                    dateUnavailabilityArray.push(date);
+                }
+            }
+
+        } else {
+            if (resDatesSched[date] >= 5) {
+                if (!dateUnavailabilityArray.includes(date)) {
+                    dateUnavailabilityArray.push(date);
+                }
+            }
+        }
+    });
     //check if a get data court_id is set
     let firstDayofMonth = new Date(currYear, currMonth, 1).getDay(), // getting first day of month
         lastDateofMonth = new Date(currYear, currMonth + 1, 0).getDate(), // getting last date of month
@@ -37,15 +60,11 @@ const renderCalendar = () => {
     }
 
     for (let i = 1; i <= lastDateofMonth; i++) { // creating li of all days of current month
-        // adding active class to li if the current day, month, and year matched
-        if (i === new Date(date).getDate() && currMonth === new Date(date).getMonth() &&
-            currYear === new Date(date).getFullYear()) {
-            // liTag += `<li class="calendar-date active">${i}</li>`;
-            continue;
+        if (dateUnavailabilityArray.includes(new Date(currYear, currMonth, i + 1).toISOString().split('T')[0])) {
+            liTag += `<li class="calendar-date unavailable">${i}</li>`;
         } else {
-            liTag += `<li class="calendar-date">${i}</li>`;
+            liTag += `<li class="calendar-date available">${i}</li>`;
         }
-
     }
 
     for (let i = lastDayofMonth; i < 6; i++) { // creating li of next month first days
@@ -78,8 +97,6 @@ const renderCalendar = () => {
 
             // Alert the full date
             filterTableByDate();
-
-
         });
     });
     completeRows = document.querySelectorAll('#list tbody tr');
@@ -163,40 +180,17 @@ prevNextIcon.forEach(icon => { // getting prev and next icons
     });
 });
 
-function getReservations() {
-    $.ajax({
-        url: 'add/getReservations.php',
-        type: 'get',
-        data: { court_id: court_id },
+async function getReservations() {
+    var ajaxOptions = {
+        url: window.location.origin + '/hoopbook/user/add/getReservations.php',
+        type: 'GET',
         success: function(response) {
             reservations = JSON.parse(response);
-            console.log("reservations");
             console.log(reservations);
-
-            reservations.forEach(function(reservation) {
-                var datetime_start = new Date(reservation.datetime_start);
-                var date = datetime_start.toISOString().split('T')[0];
-
-                if (!resDatesSched.hasOwnProperty(date)) {
-                    resDatesSched[date] = reservation.hours;
-                    dateAvailabilityArray[date] = true;
-                } else {
-                    resDatesSched[date] += reservation.hours;
-                }
-                //check if the date is a weekend
-                var day = datetime_start.getDay();
-                if (day === 0 || day === 6) {
-                    if (resDatesSched[date] >= 5) {
-                        dateAvailabilityArray[date] = false;
-                    }
-                } else {
-                    if (resDatesSched[date] >= 12) {
-                        dateAvailabilityArray[date] = false;
-                    }
-                }
-            });
-
         }
-    });
-
+    };
+    if (window.location.href.includes('user')) {
+        ajaxOptions.data = { court_id: court_id };
+    }
+    await $.ajax(ajaxOptions);
 }
