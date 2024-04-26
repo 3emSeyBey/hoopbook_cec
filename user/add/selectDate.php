@@ -56,13 +56,13 @@
                 <div id="table-container">
                     <table id="time-slot-table"></table>
                 </div>
-                <button id="book-button">Book</button>
+                <button id="book-button" onclick="filterTableBySlots()">Book</button>
             </div>
         </div>
     </div>
 </div>
 <script>
-    window.onload = function() {
+    window.onload = async function() {
         var table = document.getElementById('time-slot-table');
 
         var headerRow = document.createElement('tr');
@@ -77,9 +77,8 @@
 
         table.appendChild(headerRow);
 
-        for (var i = 0; i < 24; i++) {
+        for (var i = 12; i < 24; i++) {
             var row = document.createElement('tr');
-
             var cell1 = document.createElement('td');
             cell1.textContent = (i < 10 ? '0' : '') + i + ':00 - ' + ((i + 1) < 10 ? '0' : '') + ((i + 1) % 24) + ':00';
             row.appendChild(cell1);
@@ -88,14 +87,15 @@
             var checkbox = document.createElement('input');
             checkbox.type = 'checkbox';
             checkbox.name = 'time_slot_' + i;
+            checkbox.id = i; // Set the id of the checkbox
             cell2.appendChild(checkbox);
             row.appendChild(cell2);
 
             table.appendChild(row);
         }
-
         var button = document.getElementById('book-button');
         button.textContent = 'Book';
+        await renderCalendar();
     }
 </script>
 

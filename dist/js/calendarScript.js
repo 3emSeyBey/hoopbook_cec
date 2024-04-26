@@ -8,6 +8,8 @@ var court_id = url.searchParams.get("court_id");
 url.pathname = url.pathname.substring(0, url.pathname.lastIndexOf('/'));
 var reservations = [];
 var resDatesSched = [];
+var dateClicked = "";
+var tableFiltered = false;
 var dateUnavailabilityArray = [];
 
 // getting new date, current year and month
@@ -96,7 +98,14 @@ const renderCalendar = async() => {
             date = dateString;
 
             // Alert the full date
-            filterTableByDate();
+            var formattedDate = formatDate();
+            dateClicked = formattedDate;
+            console.log(dateClicked);
+            if (!isFromUser) {
+                filterTableByDate(formattedDate);
+            } else {
+                filterTableBySlots();
+            }
         });
     });
     completeRows = document.querySelectorAll('#list tbody tr');
@@ -113,8 +122,8 @@ function formatDate() {
     return month + ' ' + day + ', ' + year;
 }
 
-function filterTableByDate() {
-    var formattedDate = formatDate();
+function filterTableByDate(formattedDae) {
+    var formattedDate = formattedDae;
 
     // Get the table body
     var tbody = document.querySelector('#list tbody');
@@ -160,7 +169,69 @@ function fetchReservations(date) {
     xhr.send();
 }
 
-renderCalendar();
+async function filterTableBySlots() {
+    let date = new Date(dateClicked);
+
+    // getDay returns a number from 0 (Sunday) to 6 (Saturday)
+    let dayOfWeek = date.getDay();
+
+    let table = document.getElementById('time-slot-table');
+
+    // If the day of the week is from Monday (1) to Friday (5)
+    if (dayOfWeek >= 1 && dayOfWeek <= 5) {
+        if (!tableFiltered) {
+            for (let i = 1; i < 8; i++) {
+                // Check if the table has enough rows
+                if (table.rows.length > i) {
+                    // Hide the row
+                    table.rows[i].style.display = 'none';
+                }
+            }
+            tableFiltered = true;
+        }
+    } else {
+        // Show the hidden rows
+        for (let i = 1; i < 8; i++) {
+            if (table.rows.length > i) {
+                table.rows[i].style.display = '';
+            }
+        }
+        tableFiltered = false;
+    }
+    for (let i = 0; i < table.rows.length; i++) {
+        let row = table.rows[i];
+        row.style.color = 'black';
+        let checkbox = row.querySelector('input[type="checkbox"]');
+        if (checkbox) {
+            checkbox.disabled = false;
+        }
+        let cellContent = row.querySelector('td')
+        if (cellContent) {
+            cellContent.style.color = 'black';
+        }
+    }
+    reservations.forEach(reservation => {
+        let reservationDate = new Date(reservation.datetime_start);
+        if (reservationDate.toDateString() === date.toDateString()) {
+            let hour = reservationDate.getHours();
+            for (let i = 0; i < table.rows.length; i++) {
+                let row = table.rows[i];
+                // Assuming the hour is in the first cell of the row
+                let cellContent = row.cells[0].textContent;
+                if (cellContent.startsWith(hour.toString())) {
+                    for (let j = 0; j < reservation.hours; j++) {
+                        table.rows[i + j].cells[0].style.color = 'red';
+                        let checkbox = table.rows[i + j].querySelector('input[type="checkbox"]');
+                        if (checkbox) {
+                            checkbox.disabled = true;
+                        }
+                    }
+                    break; // exit the loop as we found the matching row
+                }
+            }
+        }
+    });
+}
 
 prevNextIcon.forEach(icon => { // getting prev and next icons
     icon.addEventListener("click", () => { // adding click event on both icons
@@ -186,7 +257,6 @@ async function getReservations() {
         type: 'GET',
         success: function(response) {
             reservations = JSON.parse(response);
-            console.log(reservations);
         }
     };
     if (window.location.href.includes('user')) {
