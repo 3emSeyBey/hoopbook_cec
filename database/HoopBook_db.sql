@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 25, 2024 at 01:20 AM
+-- Generation Time: Apr 27, 2024 at 08:41 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -46,9 +46,9 @@ CREATE TABLE `accounts` (
 --
 
 INSERT INTO `accounts` (`id`, `firstname`, `lastname`, `email`, `password`, `image_path`, `status`, `delete_flag`, `date_created`, `date_added`, `account_type`) VALUES
-(1, 'Jade', 'Lawas', 'user@email.com', 'user123', NULL, 1, 0, '2024-03-23 12:01:47', '2024-03-23 12:01:47', 2),
 (3, 'Sample', 'Sample', 'client@email.com', 'client123', 'dasdaser', 1, 0, '2024-04-07 14:21:59', '2024-04-09 13:02:43', 1),
 (4, 'Admin', 'Admin', 'admin@email.com', 'admin123', NULL, 1, 0, '2024-04-09 13:03:44', NULL, 0),
+(14, 'Jade', 'Lawas', 'user@email.com', 'user123', NULL, 1, 0, '2024-03-23 12:01:47', '2024-03-23 12:01:47', 2),
 (18, 'Samplex', 'User', 'staff2@email.com', 'staff2123', NULL, 1, 0, NULL, NULL, 1);
 
 -- --------------------------------------------------------
@@ -72,9 +72,9 @@ CREATE TABLE `clients_list` (
 --
 
 INSERT INTO `clients_list` (`id`, `firstname`, `lastname`, `contact`, `email`, `address`, `account_id`) VALUES
-(1, 'Client', 'One', '09123123123123', 'eemseybey@gmail.com', 'asdasdasd', 1),
 (2, 'Mack', 'Bacarisas', '09122321231', NULL, 'Address', 0),
-(3, 'Mack Cloyd', 'Bacarisas', '09123456789', NULL, 'Sitio Gwapo', 0);
+(3, 'Mack Cloyd', 'Bacarisas', '09123456789', NULL, 'Sitio Gwapo', 0),
+(13, 'Client', 'One', '09123123123123', 'eemseybey@gmail.com', 'asdasdasd', 14);
 
 -- --------------------------------------------------------
 
@@ -134,7 +134,8 @@ INSERT INTO `court_rentals` (`id`, `client_id`, `ref_number`, `court_id`, `court
 (43, 1, 'HB1-04251.00_R86Q', 2, 700.00, '2024-04-25 19:00:00', '2024-04-25 20:00:00', 1.00, 700.00, 0, '2024-04-25 02:53:26', '2024-04-25 02:53:26'),
 (44, 1, 'HB1-042903_81GV', 8, 500.00, '2024-04-29 20:00:00', '2024-04-29 23:00:00', 3.00, 1500.00, 0, '2024-04-25 02:55:51', '2024-04-25 02:55:51'),
 (45, 1, 'HB1-043002_122W', 2, 700.00, '2024-04-30 19:00:00', '2024-04-30 21:00:00', 2.00, 1400.00, 0, '2024-04-25 06:59:45', '2024-04-25 06:59:45'),
-(46, 1, 'HB1-050103_52ZT', 2, 700.00, '2024-05-01 20:00:00', '2024-05-01 23:00:00', 3.00, 2100.00, 0, '2024-04-25 07:00:16', '2024-04-25 07:00:16');
+(46, 1, 'HB1-050103_52ZT', 2, 700.00, '2024-05-01 20:00:00', '2024-05-01 23:00:00', 3.00, 2100.00, 0, '2024-04-25 07:00:16', '2024-04-25 07:00:16'),
+(47, 1, 'HB1-042801_JJU5', 8, 500.00, '2024-04-28 12:00:00', '2024-04-28 13:00:00', 1.00, 500.00, 0, '2024-04-27 12:34:51', '2024-04-27 12:34:51');
 
 -- --------------------------------------------------------
 
@@ -201,7 +202,7 @@ ALTER TABLE `accounts`
 -- AUTO_INCREMENT for table `clients_list`
 --
 ALTER TABLE `clients_list`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `court_list`
@@ -213,7 +214,7 @@ ALTER TABLE `court_list`
 -- AUTO_INCREMENT for table `court_rentals`
 --
 ALTER TABLE `court_rentals`
-  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
+  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
 
 --
 -- AUTO_INCREMENT for table `sales_transaction`
