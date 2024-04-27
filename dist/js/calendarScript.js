@@ -100,7 +100,6 @@ const renderCalendar = async() => {
             // Alert the full date
             var formattedDate = formatDate();
             dateClicked = formattedDate;
-            console.log(dateClicked);
             if (!isFromUser) {
                 filterTableByDate(formattedDate);
             } else {
@@ -176,7 +175,7 @@ async function filterTableBySlots() {
     let dayOfWeek = date.getDay();
 
     let table = document.getElementById('time-slot-table');
-
+    document.querySelector('.time-slots').style.visibility = "visible";
     // If the day of the week is from Monday (1) to Friday (5)
     if (dayOfWeek >= 1 && dayOfWeek <= 5) {
         if (!tableFiltered) {
@@ -236,7 +235,6 @@ async function filterTableBySlots() {
 prevNextIcon.forEach(icon => { // getting prev and next icons
     icon.addEventListener("click", () => { // adding click event on both icons
         // if clicked icon is previous icon then decrement current month by 1 else increment it by 1
-        alert("clicked");
         currMonth = icon.id === "prev" ? currMonth - 1 : currMonth + 1;
 
         if (currMonth < 0 || currMonth > 11) { // if current month is less than 0 or greater than 11

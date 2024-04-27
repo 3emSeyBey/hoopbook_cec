@@ -2,9 +2,7 @@
     <?php
     // Check if court_id is provided in the GET parameters
     if (isset($_GET['court_id'])) {
-        echo "<script>console.log('court_id is set');</script>";
         $court_id = $_GET['court_id'];
-
         // Prepare the query
         $stmt = $conn->prepare('SELECT * FROM court_rentals WHERE court_id = ?');
         $stmt->bind_param('i', $court_id);
@@ -56,12 +54,15 @@
                 <div id="table-container">
                     <table id="time-slot-table"></table>
                 </div>
-                <button id="book-button" onclick="filterTableBySlots()">Book</button>
+                <button id="book-button">Book</button>
             </div>
         </div>
     </div>
 </div>
 <script>
+    var startDate = new Date();
+    var numOfHours = 0;
+    var endDate = new Date();
     window.onload = async function() {
         var table = document.getElementById('time-slot-table');
 
@@ -90,13 +91,101 @@
             checkbox.id = i; // Set the id of the checkbox
             cell2.appendChild(checkbox);
             row.appendChild(cell2);
-
             table.appendChild(row);
         }
         var button = document.getElementById('book-button');
         button.textContent = 'Book';
+        document.querySelector('.time-slots').style.visibility = 'hidden';
         await renderCalendar();
     }
+
+    function proceedToBooking() {
+        if(verifyBooking()) {
+            var checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            var checked = Array.from(checkboxes).filter(checkbox => checkbox.checked);
+            checked.sort((a, b) => parseInt(a.id) - parseInt(b.id));
+            var earliestTimeSlot = checked[0].id;
+            var time = new Date();
+            time.setHours(earliestTimeSlot, 0, 0, 0);
+            var date_ = new Date(date);
+            startDate = new Date(date_.getTime());
+            startDate.setHours(time.getHours(), time.getMinutes(), time.getSeconds(), time.getMilliseconds());
+            numOfHours = checked.length;
+            endDate = new Date(startDate.getTime());
+            endDate.setHours(endDate.getHours() + numOfHours);
+            return true;
+        }
+    }
+
+    function verifyBooking() {
+        var checkboxes = document.querySelectorAll('input[type="checkbox"]');
+        var isAnyChecked = Array.from(checkboxes).some(checkbox => checkbox.checked);
+
+        if (!isAnyChecked) {
+            alert('Please select at least one time slot.');
+            return false
+        }
+        var table = document.getElementById('time-slot-table');
+        var checkboxes = table.getElementsByTagName('input');
+        var checked = [];
+
+        for (var i = 0; i < checkboxes.length; i++) {
+            if (checkboxes[i].checked) {
+                checked.push(checkboxes[i]);
+            }
+        }
+
+        checked.sort(function(a, b) {
+            return parseInt(a.id) - parseInt(b.id);
+        });
+
+        for (var i = 1; i < checked.length; i++) {
+            if (parseInt(checked[i].id) - parseInt(checked[i - 1].id) !== 1) {
+                alert('Selected time slots must be consecutive. To book non-consecutive time slots, please make separate reservations.');
+                return false;
+            }
+        }
+        return true;
+    }
+
+    $(document).ready(function() {
+        $('#book-button').click(function() {
+            if(proceedToBooking()){
+                var url = window.location.href;
+                var court_id = url[url.length - 1];
+                var form = document.createElement('form');
+                form.method = 'POST';
+                form.action = "<?php echo base_url ?>user/?page=add/preconfirmation";
+
+                var courtIdInput = document.createElement('input');
+                courtIdInput.type = 'hidden';
+                courtIdInput.name = 'court_id';
+                courtIdInput.value = court_id;
+                form.appendChild(courtIdInput);
+
+                var startInput = document.createElement('input');
+                startInput.type = 'hidden';
+                startInput.name = 'datetime_start';
+                startInput.value = startDate.toISOString();
+                form.appendChild(startInput);
+
+                var endInput = document.createElement('input');
+                endInput.type = 'hidden';
+                endInput.name = 'datetime_end';
+                endInput.value = endDate.toISOString();
+                form.appendChild(endInput);
+
+                var hoursInput = document.createElement('input');
+                hoursInput.type = 'hidden';
+                hoursInput.name = 'hours';
+                hoursInput.value = numOfHours;
+                form.appendChild(hoursInput);
+
+                document.body.appendChild(form);
+                form.submit();
+            }
+        });
+    });
 </script>
 
 <style>

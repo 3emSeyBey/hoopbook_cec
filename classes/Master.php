@@ -236,11 +236,18 @@ class Master extends DBConnection
 		$data = preg_replace("/`datetime_end`='[^']*'/", "`datetime_end`='$datetime_end'", $data);
 		if (empty($id)) {
 			// Check for conflicting reservations
-			$conflict_check_sql = "SELECT * FROM `court_rentals` WHERE `court_id`='{$court_id}' AND ((`datetime_start` <= '{$datetime_end}' AND `datetime_end` >= '{$datetime_start}') OR (`datetime_end` >= '{$datetime_start}' AND `datetime_start` <= '{$datetime_end}'))";
-			$conflict_check_result = $this->conn->query($conflict_check_sql);
-			if ($conflict_check_result->num_rows > 0) {
+			try{
+				$conflict_check_sql = "SELECT * FROM `court_rentals` WHERE `court_id`='{$court_id}' AND ((`datetime_start` <= '{$datetime_end}' AND `datetime_end` >= '{$datetime_start}') OR (`datetime_end` >= '{$datetime_start}' AND `datetime_start` <= '{$datetime_end}'))";
+				$conflict_check_result = $this->conn->query($conflict_check_sql);
+				if ($conflict_check_result->num_rows > 0) {
+					$resp['status'] = 'failed';
+					$resp['msg'] = "There is a conflicting reservation for the selected court and time. Verify the court and time and try again.";
+					return json_encode($resp);
+				}
+			}
+			catch (error) {
 				$resp['status'] = 'failed';
-				$resp['msg'] = "There is a conflicting reservation for the selected court and time. Verify the court and time and try again.";
+				$resp['msg'] = "An error occurred while checking for conflicting reservations. Please try again.";
 				return json_encode($resp);
 			}
 			$sql = "INSERT INTO `court_rentals` set {$data} ";
